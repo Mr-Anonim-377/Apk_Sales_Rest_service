@@ -16,7 +16,8 @@ public class Product {
 
     private String title;
 
-    private UUID product_type_id;
+    private UUID
+            product_type_id;
 
     private double price;
 
