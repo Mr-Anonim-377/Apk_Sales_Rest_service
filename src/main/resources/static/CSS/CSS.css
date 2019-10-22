@@ -8,78 +8,83 @@ body {
     height: 100%;
     width: 100%;
 }
+.container,
+.Head1 {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+}
+.header {
+    position: relative;
+    height: 250px;
+}
 
 .Head1 {
-
+    z-index: 99;
     height: 100%;
-    width: 100%;
-    left: 0%;
-    top: -1%;
     background: linear-gradient(180deg, #53E88E 0%, rgba(141, 228, 176, 0) 100%), #23C1C1;
     opacity: 0.7;
     box-shadow: inset 0px 4px 120px rgba(147, 234, 223, 0.49);
     filter: blur(30px);
-}
-.Head2{
 
-    width: 100%;
-    height: 100%;
-    left: 0px;
-    top: -1%;
+}
+
+.Head2 {
+    z-index: 99;
+    height: 24%;
     background: #45B4D7;
     opacity: 0.5;
-    margin-top: 18%;
     filter: blur(22px);
 }
-h1{
+
+h1 {
     text-align: center;
     color: black;
     font-size: 50%;
 }
-.log{
-    position: absolute;
-    width: 23%;
+
+.log {
     height: 217px;
-    left: 9%;
-    top: 6%;
-    float: left;
-}
-.input{
-    position: relative;
-    width: 50%;
-    height: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    outline: none;
 
 }
-.input1{
-    margin-left: 25%;
-    margin-top: 16%;
+
+.input {
+    margin: 10% 5% 5% 5%;
+    width: 35%;
+    text-align: center;
+    display: flex;
+}
+
+.input1 {
     background: #E2F2E2;
     border-radius: 6px;
-    width: 58%;
     height: 47px;
+    width: 80%;
     font-style: italic;
     color: #B6C0A5;
-    outline: none;
+    border-top-width: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom-width: 0;
 }
-.input2{
+
+.input2 {
     background: #AAD9E0;
     border-radius: 6px;
-    width: 61px;
-    height: 47px;
     outline: none;
+    width: 14%;
 }
-.basket_regist{
-    position: relative;
-    display: block;
-    float: right;
-    margin-top: -5%;
-    margin-right: 9%;
-    margin-left: 0%;
-        }
-.naw{
+
+.basket_regist {
+    margin-top: 8%;
+    margin-bottom: auto;
+    margin-right: auto;
+    width: 15%;
+}
+
+.naw {
     display: block;
     width: 100%;
     text-decoration: none;
@@ -88,7 +93,8 @@ h1{
     font-size: 25.5px;
     list-style-type: none;
 }
-li{
+
+li {
     position: relative;
     float: left;
     height: 100%;
@@ -96,13 +102,15 @@ li{
     line-height: 10%;
 
 }
-.naw2{
-    text-decoration:none;
+
+.naw2 {
+    text-decoration: none;
     margin-left: 11px;
     font-family: Roboto;
     font-size: 33px;
     color: #184355;
 }
+
 .naw3 {
     text-decoration: none;
     margin-left: 19px;
@@ -111,36 +119,45 @@ li{
     padding-right: 48px;
     color: #08303D;
 }
-main{
+
+main {
     width: 100%;
-    margin: 0px auto 60%;
 }
-.main1{
-    position: absolute;
-    width: 100%;
+
+.main1 {
     height: 200%;
     background: rgba(157, 208, 211, 0.61);
     filter: blur(50px);
 }
-.Baner{
+
+.Baner {
     position: relative;
     margin-left: 7%;
     width: 94%;
     margin-top: -3%;
     margin-bottom: 0px;
 }
-.container {
-    position:relative;
-    margin-top: 2%;
-    margin-left: 7%;
 
+.container {
+    text-align: center;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+    max-width: 1200px;
+    display: flow-root;
 }
+
 .article {
-   position: absolute;
+    position: absolute;
     margin-left: 27%;
     margin-top: 26%;
 }
-.circle{
+
+.circle {
     position: relative;
     width: 150px;
     height: 150px;
@@ -150,19 +167,34 @@ main{
     margin-right: 1%;
     margin-bottom: 1%;
 }
-.triangle{
+
+.triangle {
     width: 0;
     height: 0;
     border-left: 35px solid transparent;
     border-right: 40px solid transparent;
-    border-bottom: 43px solid #bfbfbf ;
+    border-bottom: 43px solid #bfbfbf;
     margin-left: 3%;
 }
-.triangle2{
+
+.triangle2 {
     width: 0;
     height: 0;
     border-left: 35px solid transparent;
     border-right: 40px solid transparent;
-    border-top: 43px solid #bfbfbf ;
+    border-top: 43px solid #bfbfbf;
     margin-left: 3%;
+}
+
+.row {
+    width: 100%;
+    display: inline-flex;
+    box-sizing: inherit;
+    margin-right: -15px;
+    margin-left: -15px;
+
+}
+
+.fon {
+    background-image: url("pictures/Group 21подложка.png");
 }
