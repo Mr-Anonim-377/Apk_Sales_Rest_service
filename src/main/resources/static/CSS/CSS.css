@@ -11,7 +11,8 @@ body {
 
 .container,
 .Head1,
-.Head2 {
+.Head2,
+.main{
     position: absolute;
     left: 0;
     top: 0;
@@ -129,10 +130,12 @@ main {
     width: 100%;
 }
 
-.main1 {
-    height: 200%;
+.main {
     background: rgba(157, 208, 211, 0.61);
     filter: blur(50px);
+    z-index: 99;
+    height: 100%;
+
 }
 
 .Baner {
@@ -210,12 +213,9 @@ main {
     height: 100%;
 }
 
-.fon {
-    background-image: url("pictures/Group 21подложка.png");
-}
 
 .section {
-
+    position: relative;
 }
 
 .section_nav {
@@ -232,4 +232,28 @@ main {
 .li_nav {
     margin-left: auto;
     margin-right: auto;
+}
+.container_clamped,
+.main_container{
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+    max-width: 1200px;
+    display: flow-root;
+}
+.row_baner{
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+    display: flex;
+    box-sizing: inherit;
+}
+
+.main_banners__link{
+    display: block;
+}
+.main_banners__wrapper{
+    z-index: 100;
+
 }
