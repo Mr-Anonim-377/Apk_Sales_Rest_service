@@ -253,6 +253,7 @@ main {
 
 .main_banners__link{
     display: block;
+    width : 100%
 }
 .main_banners__wrapper{
     z-index: 100;
