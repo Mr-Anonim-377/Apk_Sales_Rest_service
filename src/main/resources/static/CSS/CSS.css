@@ -232,6 +232,7 @@ main {
     margin-left: auto;
     margin-right: auto;
 }
+.main_border,
 .container_clamped{
     margin-right: auto;
     margin-left: auto;
@@ -400,4 +401,17 @@ main {
     border-right: 10px solid transparent;
     border-top: 20px solid #34D3DD;
     margin-top: 17%;
+}
+.main_color{
+    background: rgba(120, 208, 236, 0.5);
+    opacity: 0.4;
+    filter: blur(20px);
+}
+.main_filters{
+    display: block;
+    position: absolute;
+}
+.section_main{
+    width: 100%;
+    height: 100%;
 }
