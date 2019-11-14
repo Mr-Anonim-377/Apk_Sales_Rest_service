@@ -32,7 +32,7 @@ body {
     background: linear-gradient(180deg, #53E88E 0%, rgba(141, 228, 176, 0) 100%), #23C1C1;
     opacity: 0.7;
     box-shadow: inset 0px 4px 120px rgba(147, 234, 223, 0.49);
-    filter: blur(30px);
+    filter: blur(15px);
 
 }
 
@@ -41,7 +41,7 @@ body {
     height: 100%;
     background: #45B4D7;
     opacity: 0.5;
-    filter: blur(22px);
+    filter: blur(15px);
 }
 
 
@@ -121,7 +121,7 @@ main {
 
 .main {
     background: rgba(157, 208, 211, 0.61);
-    filter: blur(50px);
+    filter: blur(10px);
     z-index: 99;
     height: 100%;
 
@@ -482,7 +482,7 @@ main {
 .main_goods_back{
     background: rgba(120, 208, 236, 0.5);
     opacity: 1.5;
-    filter: blur(20px);
+    filter: blur(5px);
     z-index: 98;
     width: 100%;
     height: 100%;
@@ -666,6 +666,7 @@ main {
 .main_container_product{
     display: block;
     text-align: center;
+    margin-left: 27%;
 }
 .row_product_child{
     margin: 0;
