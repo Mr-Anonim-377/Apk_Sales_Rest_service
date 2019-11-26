@@ -1,5 +1,4 @@
 *{font-family: 'Roboto', sans-serif;}
-
 html,
 body {
     margin: 0;
@@ -291,7 +290,7 @@ main {
     margin-top: 1%;
 }
 .text{
-    font-family: Roboto Condensed;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: normal;
     color: rgba(28, 74, 84, 0.95);
