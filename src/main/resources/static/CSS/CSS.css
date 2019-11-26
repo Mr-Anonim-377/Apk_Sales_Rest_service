@@ -102,14 +102,14 @@ body {
 
 .naw_other {
     text-decoration: none;
-    font-family: Roboto;
+    font-family: 'Roboto', sans-serif;
     font-size: 33px;
     color: #184355;
 }
 
 .naw_categor {
     text-decoration: none;
-    font-family: Roboto;
+    font-family: 'Roboto', sans-serif;
     font-size: 33px;
     padding-right: 48px;
     color: #08303D;
@@ -488,7 +488,7 @@ main {
     position: absolute;
 }
 .main_goods_text{
-    font-family: Roboto;
+    font-family: 'Roboto', sans-serif;
     font-style: italic;
     font-weight: normal;
     font-size: 38px;
@@ -688,7 +688,7 @@ main {
 
 }
 .card_text{
-    font-family: Roboto;
+    font-family: 'Roboto', sans-serif;
     font-style: italic;
     font-weight: 500;
     font-size: 25px;
@@ -714,7 +714,7 @@ main {
     text-align: center;
 }
 .text_carousel{
-    font-family: Roboto;
+    font-family: 'Roboto', sans-serif;
     font-style: italic;
     font-weight: normal;
     font-size: 27px;
@@ -740,7 +740,7 @@ main {
     color: #184355;
 }
 .product-description_paragraph{
-    font-family: Roboto;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 25px;
