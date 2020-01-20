@@ -1,6 +1,6 @@
 package com.Sales.SalesWeb.controller;
 
-import com.Sales.SalesWeb.controller.exception.InternalServerError;
+import com.Sales.SalesWeb.controller.exception.InternalServerExeption;
 import com.Sales.SalesWeb.controller.exception.NoSuchObject;
 import com.Sales.SalesWeb.model.FavoriteCategory;
 import com.Sales.SalesWeb.service.FavoriteCategoriesService;
@@ -31,7 +31,7 @@ public class FavoriteCategoriesController {
             favoriteCategory = favoriteCategoriesService.getfavoriteCategory(id);
         } catch (RuntimeException e) {
             e.printStackTrace();
-            throw new InternalServerError();
+            throw new InternalServerExeption();
         }
         if (favoriteCategory == null) {
             throw new NoSuchObject();
@@ -46,7 +46,7 @@ public class FavoriteCategoriesController {
             favoriteCategories = favoriteCategoriesService.getAllFavoriteCategories();
         } catch (RuntimeException e) {
             e.printStackTrace();
-            throw new InternalServerError();
+            throw new InternalServerExeption();
         }
         return new ResponseEntity<>(favoriteCategories, HttpStatus.OK);
     }

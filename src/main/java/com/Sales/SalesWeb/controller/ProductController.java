@@ -1,7 +1,7 @@
 package com.Sales.SalesWeb.controller;
 
 
-import com.Sales.SalesWeb.controller.exception.InternalServerError;
+import com.Sales.SalesWeb.controller.exception.InternalServerExeption;
 import com.Sales.SalesWeb.controller.exception.NoSuchObject;
 import com.Sales.SalesWeb.model.POJO.FavoriteCategoryProductsResponse;
 import com.Sales.SalesWeb.model.Product;
@@ -9,6 +9,7 @@ import com.Sales.SalesWeb.service.ProductsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "products", produces = MediaType.APPLICATION_JSON_VALUE)
+@SessionAttributes("product")
 public class ProductController {
     private final ProductsService productsService;
 
@@ -25,13 +27,13 @@ public class ProductController {
     }
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getProduct(@PathVariable UUID id) {
+    public ResponseEntity getProduct(Model model, @PathVariable UUID id) {
         Product product;
         try {
             product = productsService.getProduct(id);
         } catch (RuntimeException e) {
             e.printStackTrace();
-            throw new InternalServerError();
+            throw new InternalServerExeption();
         }
         if (product == null) {
             throw new NoSuchObject();
@@ -44,20 +46,20 @@ public class ProductController {
         Product newProduct;
         try {
             newProduct = productsService.createProduct(product);
-        } catch (RuntimeException e){
+        } catch (RuntimeException e) {
             e.printStackTrace();
-            throw new InternalServerError();
+            throw new InternalServerExeption();
         }
         return new ResponseEntity<>(newProduct, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity deleteProduct(@PathVariable("id") Product product) {
-        try{
+        try {
             productsService.deleteProduct(product);
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             e.printStackTrace();
-        throw new InternalServerError();
+            throw new InternalServerExeption();
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -65,11 +67,11 @@ public class ProductController {
     @PutMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updateProduct(@PathVariable("id") Product productFromDb, @RequestBody Product productFromReqest) {
         Map<String, Product> stringProductMap;
-        try{
+        try {
             stringProductMap = productsService.updateProduct(productFromDb, productFromReqest);
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             e.printStackTrace();
-            throw new InternalServerError();
+            throw new InternalServerExeption();
         }
         return new ResponseEntity<>(stringProductMap, HttpStatus.OK);
 
@@ -78,13 +80,27 @@ public class ProductController {
     @PostMapping(value = "favorites", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getFavoriteCategoriesFavoriteProdcuts() {
         List<FavoriteCategoryProductsResponse> favoriteCategoriesFavoriteProdcuts;
-        try{
+        try {
             favoriteCategoriesFavoriteProdcuts = productsService.getFavoriteCategoriesFavoriteProdcuts();
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             e.printStackTrace();
-            throw new InternalServerError();
+            throw new InternalServerExeption();
         }
         return new ResponseEntity<>(favoriteCategoriesFavoriteProdcuts, HttpStatus.OK);
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity test(@ModelAttribute Product product) {
+        product.setNameProduct("4333545");
+        return new ResponseEntity(product, HttpStatus.OK);
+    }
+
+
+    @ModelAttribute("product")
+    public Product createUser() {
+        Product product = new Product();
+        product.setNameProduct("testtttt");
+        return product;
     }
 
 }

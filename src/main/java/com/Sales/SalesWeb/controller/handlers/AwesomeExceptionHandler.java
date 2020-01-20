@@ -1,6 +1,6 @@
 package com.Sales.SalesWeb.controller.handlers;
 
-import com.Sales.SalesWeb.controller.exception.InternalServerError;
+import com.Sales.SalesWeb.controller.exception.InternalServerExeption;
 import com.Sales.SalesWeb.controller.exception.NoSuchObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,7 +28,7 @@ public class AwesomeExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now().format(formatter), "No Valid request param","ArgumentTypeMismatch"), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(InternalServerException .class)
+    @ExceptionHandler(InternalServerExeption.class)
     protected ResponseEntity<ExceptionResponse> handleIntermalServerError(Exception exc) {
         return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now().format(formatter), "Server Error",exc.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }

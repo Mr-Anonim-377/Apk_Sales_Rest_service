@@ -1,6 +1,6 @@
 package com.Sales.SalesWeb.controller;
 
-import com.Sales.SalesWeb.controller.exception.InternalServerError;
+import com.Sales.SalesWeb.controller.exception.InternalServerExeption;
 import com.Sales.SalesWeb.controller.exception.NoSuchObject;
 import com.Sales.SalesWeb.model.Collection;
 import com.Sales.SalesWeb.service.CollectionService;
@@ -30,7 +30,7 @@ public class CollectionController {
             collection = collectionService.getCollect(id);
         } catch (RuntimeException e) {
             e.printStackTrace();
-            throw new InternalServerException ("test");
+            throw new InternalServerExeption();
         }
         if (collection == null) {
             throw new NoSuchObject();
@@ -45,7 +45,7 @@ public class CollectionController {
             collections = collectionService.getAllCollect();
         } catch (RuntimeException e) {
             e.printStackTrace();
-            throw new InternalServerError();
+            throw new InternalServerExeption();
         }
         return new ResponseEntity<>(collections, HttpStatus.OK);
     }
