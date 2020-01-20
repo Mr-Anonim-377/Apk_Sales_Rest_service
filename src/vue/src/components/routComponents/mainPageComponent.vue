@@ -4,10 +4,12 @@
     <Navigation/>
     <CurrentBaner/>
     <BodyPage/>
+    <Footer/>
   </div>
 </template>
 <script>
 import Header from '@/components/unitComponents/Header'
+import Footer from '@/components/unitComponents/Footer'
 import Navigation from '@/components/unitComponents/Navigation'
 import CurrentBaner from '@/components/unitComponents/CurrentBaner'
 import BodyPage from '@/components/unitComponents/BodyPage'
@@ -17,7 +19,8 @@ export default {
     Header,
     Navigation,
     CurrentBaner,
-    BodyPage
+    BodyPage,
+    Footer
   }
 }
 </script>

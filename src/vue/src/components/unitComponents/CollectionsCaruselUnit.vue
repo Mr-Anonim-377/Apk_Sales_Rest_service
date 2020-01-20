@@ -1,6 +1,8 @@
 <template>
   <div class = "circle">
-  <a class="article" href=""> <img class="article_pictures"  v-bind:src="imagePatch.imagePatch"  />{{collection.collectionName}}</a>
+  <a class="article" href=""> <img class="article_pictures"  v-bind:src="imagePatch.imagePatch"  />
+    {{collection.collectionName}}
+  </a>
   </div>
 </template>
 
