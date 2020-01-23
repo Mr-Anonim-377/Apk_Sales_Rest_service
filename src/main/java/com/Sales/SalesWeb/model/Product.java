@@ -1,18 +1,10 @@
 package com.Sales.SalesWeb.model;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import lombok.Data;
-import org.flywaydb.core.internal.database.postgresql.PostgreSQLType;
-import org.hibernate.annotations.Type;
-import org.hibernate.type.descriptor.sql.NumericTypeDescriptor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.SQLData;
 import java.util.UUID;
-
-import static org.hibernate.type.descriptor.sql.NumericTypeDescriptor.INSTANCE;
 
 @Entity()
 @Table(name = "products")

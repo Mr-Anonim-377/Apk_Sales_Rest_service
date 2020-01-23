@@ -1,7 +1,9 @@
 package com.Sales.SalesWeb.controller.handlers;
 
+import com.Sales.SalesWeb.controller.exception.BadParamForRequest;
 import com.Sales.SalesWeb.controller.exception.InternalServerExeption;
 import com.Sales.SalesWeb.controller.exception.NoSuchObject;
+import com.Sales.SalesWeb.controller.exception.ShoppingProductNotSuch;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
@@ -21,19 +23,28 @@ public class AwesomeExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NoSuchObject.class)
     protected ResponseEntity<ExceptionResponse> handleThereIsNoSuchUserException() {
-        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now().format(formatter), "No such object in db","NoSuchObj"), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now().format(formatter), "No such object in db", "NoSuchObj"), HttpStatus.NOT_FOUND);
     }
+
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     protected ResponseEntity<ExceptionResponse> handleNoHttpValidationParametrs() {
-        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now().format(formatter), "No Valid request param","ArgumentTypeMismatch"), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now().format(formatter), "No Valid request param", "ArgumentTypeMismatch"), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(InternalServerExeption.class)
     protected ResponseEntity<ExceptionResponse> handleIntermalServerError(Exception exc) {
-        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now().format(formatter), "Server Error",exc.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now().format(formatter), "Server Error", exc.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    
-   
+
+    @ExceptionHandler(BadParamForRequest.class)
+    protected ResponseEntity<ExceptionResponse> handleBadParamForReqest(Exception exc) {
+        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now().format(formatter), "Bad param for request", "BadParamForRequest"), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ShoppingProductNotSuch.class)
+    protected ResponseEntity<ExceptionResponse> handleShoppingProductNotSuch(Exception exc) {
+        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now().format(formatter), "Shopping product not such", "BadParamForRequest"), HttpStatus.BAD_REQUEST);
+    }
 
 
     @Data
@@ -43,8 +54,6 @@ public class AwesomeExceptionHandler extends ResponseEntityExceptionHandler {
         private String message;
         private String type;
     }
-
-
 
 
 }

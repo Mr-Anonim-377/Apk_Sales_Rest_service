@@ -6,10 +6,10 @@ import com.Sales.SalesWeb.controller.exception.NoSuchObject;
 import com.Sales.SalesWeb.model.POJO.FavoriteCategoryProductsResponse;
 import com.Sales.SalesWeb.model.Product;
 import com.Sales.SalesWeb.service.ProductsService;
+import io.swagger.annotations.Api;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "products", produces = MediaType.APPLICATION_JSON_VALUE)
-@SessionAttributes("product")
+@Api(value="onlinestore", description="Operations pertaining to products in Online Store")
 public class ProductController {
     private final ProductsService productsService;
 
@@ -27,7 +27,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getProduct(Model model, @PathVariable UUID id) {
+    public ResponseEntity getProduct(@PathVariable UUID id) {
         Product product;
         try {
             product = productsService.getProduct(id);
@@ -87,20 +87,6 @@ public class ProductController {
             throw new InternalServerExeption();
         }
         return new ResponseEntity<>(favoriteCategoriesFavoriteProdcuts, HttpStatus.OK);
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity test(@ModelAttribute Product product) {
-        product.setNameProduct("4333545");
-        return new ResponseEntity(product, HttpStatus.OK);
-    }
-
-
-    @ModelAttribute("product")
-    public Product createUser() {
-        Product product = new Product();
-        product.setNameProduct("testtttt");
-        return product;
     }
 
 }

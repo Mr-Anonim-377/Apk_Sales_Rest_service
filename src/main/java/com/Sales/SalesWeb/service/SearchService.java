@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 @Service
 public class SearchService {
+    private static final int PAGE_SIZE =20;
     private final ProductRepository productRepository;
 
     public SearchService(ProductRepository productRepository) {
@@ -20,8 +21,8 @@ public class SearchService {
     }
 
 
-    public Page<Product> searchOnProductName(String name){
-        Pageable pageable = PageRequest.of(0, 20);
+    public Page<Product> searchOnProductName(String name, int page){
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         return productRepository.findByNameProductContains(name,pageable);
     }
 

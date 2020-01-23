@@ -4,10 +4,7 @@ import com.Sales.SalesWeb.service.SearchService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "search", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -19,9 +16,9 @@ public class SearchController {
     }
 
 
-    @GetMapping(value = "onProductsName/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity searchOnProduct(@PathVariable String name) {
-        return new ResponseEntity<>(searchService.searchOnProductName(name), HttpStatus.OK);
+    @GetMapping(value = "/onProductsName", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity searchOnProduct(@RequestParam String name, @RequestParam int page) {
+        return new ResponseEntity<>(searchService.searchOnProductName(name,page), HttpStatus.OK);
     }
 
 }
