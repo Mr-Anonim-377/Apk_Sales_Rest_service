@@ -1,10 +1,7 @@
 package com.Sales.SalesWeb.controller;
 
-import com.Sales.SalesWeb.controller.exception.InternalServerExeption;
 import com.Sales.SalesWeb.controller.exception.NoSuchObject;
-import com.Sales.SalesWeb.model.Collection;
 import com.Sales.SalesWeb.model.Image;
-import com.Sales.SalesWeb.service.CollectionService;
 import com.Sales.SalesWeb.service.ImageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -28,13 +24,7 @@ public class ImageController {
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getCollection(@PathVariable UUID id) {
-        Image image;
-        try {
-            image = imageService.getImage(id);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            throw new InternalServerExeption();
-        }
+        Image image = imageService.getImage(id);
         if (image == null) {
             throw new NoSuchObject();
         }

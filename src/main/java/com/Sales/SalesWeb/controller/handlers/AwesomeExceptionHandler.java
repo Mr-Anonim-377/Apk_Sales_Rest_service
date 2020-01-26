@@ -1,11 +1,9 @@
 package com.Sales.SalesWeb.controller.handlers;
 
-import com.Sales.SalesWeb.controller.exception.BadParamForRequest;
-import com.Sales.SalesWeb.controller.exception.InternalServerExeption;
-import com.Sales.SalesWeb.controller.exception.NoSuchObject;
-import com.Sales.SalesWeb.controller.exception.ShoppingProductNotSuch;
-import lombok.AllArgsConstructor;
+import com.Sales.SalesWeb.controller.exception.*;
+import com.Sales.SalesWeb.controller.exception.enums.ExceptionType;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,43 +15,81 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @ControllerAdvice
+@Slf4j
 public class AwesomeExceptionHandler extends ResponseEntityExceptionHandler {
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-LL-yyyy/HH:mm:ss");
 
     @ExceptionHandler(NoSuchObject.class)
-    protected ResponseEntity<ExceptionResponse> handleThereIsNoSuchUserException() {
-        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now().format(formatter), "No such object in db", "NoSuchObj"), HttpStatus.NOT_FOUND);
+    protected ResponseEntity<ApiExceptionResponse> handleNoSuchObject() {
+        return new ResponseEntity<>(new ApiExceptionResponse(
+                LocalDateTime.now().format(formatter),
+                "No such object in db","Objet==null",
+                ExceptionType.NoSuchObj), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ApiException.class)
+    protected ResponseEntity<ApiExceptionResponse> handleApiExeption(ApiException exc) {
+        return new ResponseEntity<>(new ApiExceptionResponse(
+                exc.getDataTime(),
+                exc.getMessage(),
+                exc.getReason(),
+                exc.getType()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NoSuchObjects.class)
+    protected ResponseEntity<ApiExceptionResponse> handleNoSuchObjects() {
+        return new ResponseEntity<>(new ApiExceptionResponse(
+                LocalDateTime.now().format(formatter),
+                "No such objects in db","Objets==null",
+                ExceptionType.NoSuchObjs), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    protected ResponseEntity<ExceptionResponse> handleNoHttpValidationParametrs() {
-        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now().format(formatter), "No Valid request param", "ArgumentTypeMismatch"), HttpStatus.BAD_REQUEST);
+    protected ResponseEntity<ApiExceptionResponse> handleNoHttpValidationParametrs() {
+        return new ResponseEntity<>(new ApiExceptionResponse(
+                LocalDateTime.now().format(formatter),
+                "No Valid request param","reqestParam!=expected",
+                ExceptionType.ArgumentTypeMismatch), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(InternalServerExeption.class)
-    protected ResponseEntity<ExceptionResponse> handleIntermalServerError(Exception exc) {
-        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now().format(formatter), "Server Error", exc.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+    @ExceptionHandler(InternalDataBaseServerExeption.class)
+    protected ResponseEntity<ApiExceptionResponse> handleIntermalServerError(Exception exc) {
+        return new ResponseEntity<>(new ApiExceptionResponse(
+                LocalDateTime.now().format(formatter),
+                "Service error, try again later","the database query",
+                ExceptionType.InternalServerError), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(BadParamForRequest.class)
-    protected ResponseEntity<ExceptionResponse> handleBadParamForReqest(Exception exc) {
-        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now().format(formatter), "Bad param for request", "BadParamForRequest"), HttpStatus.BAD_REQUEST);
+    protected ResponseEntity<ApiExceptionResponse> handleBadParamForReqest(Exception exc) {
+        return new ResponseEntity<>(new ApiExceptionResponse(
+                LocalDateTime.now().format(formatter),
+                "Bad param for request","",
+                ExceptionType.BadParamForRequest), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ShoppingProductNotSuch.class)
-    protected ResponseEntity<ExceptionResponse> handleShoppingProductNotSuch(Exception exc) {
-        return new ResponseEntity<>(new ExceptionResponse(LocalDateTime.now().format(formatter), "Shopping product not such", "BadParamForRequest"), HttpStatus.BAD_REQUEST);
+    protected ResponseEntity<ApiExceptionResponse> handleShoppingProductNotSuch(Exception exc) {
+        return new ResponseEntity<>(new ApiExceptionResponse(
+                LocalDateTime.now().format(formatter),
+                "Shopping product not such","shopProduct==null",
+                ExceptionType.NoSuchObj), HttpStatus.BAD_REQUEST);
     }
-
 
     @Data
-    @AllArgsConstructor
-    private static class ExceptionResponse {
+    private static class ApiExceptionResponse{
         private String dateTime;
         private String message;
-        private String type;
+        private ExceptionType type;
+        private String reason;
+
+        public ApiExceptionResponse(String dateTime, String message, String reason, ExceptionType type) {
+            log.error(String.format("Message: %s; Because: %s; Type: %s", message, reason, type));
+            this.dateTime = dateTime;
+            this.message = message;
+            this.type = type;
+            this.reason = reason;
+        }
     }
-
-
 }

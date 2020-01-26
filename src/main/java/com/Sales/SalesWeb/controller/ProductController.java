@@ -1,8 +1,9 @@
 package com.Sales.SalesWeb.controller;
 
 
-import com.Sales.SalesWeb.controller.exception.InternalServerExeption;
+import com.Sales.SalesWeb.controller.exception.ApiException;
 import com.Sales.SalesWeb.controller.exception.NoSuchObject;
+import com.Sales.SalesWeb.controller.exception.enums.ExceptionType;
 import com.Sales.SalesWeb.model.POJO.FavoriteCategoryProductsResponse;
 import com.Sales.SalesWeb.model.Product;
 import com.Sales.SalesWeb.service.ProductsService;
@@ -18,7 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "products", produces = MediaType.APPLICATION_JSON_VALUE)
-@Api(value="onlinestore", description="Operations pertaining to products in Online Store")
+@Api(value = "onlinestore", description = "Operations pertaining to products in Online Store")
 public class ProductController {
     private final ProductsService productsService;
 
@@ -28,13 +29,7 @@ public class ProductController {
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getProduct(@PathVariable UUID id) {
-        Product product;
-        try {
-            product = productsService.getProduct(id);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            throw new InternalServerExeption();
-        }
+        Product product = productsService.getProduct(id);
         if (product == null) {
             throw new NoSuchObject();
         }
@@ -43,48 +38,40 @@ public class ProductController {
 
     @PostMapping(value = "create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createProduct(@RequestBody Product product) {
-        Product newProduct;
-        try {
-            newProduct = productsService.createProduct(product);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            throw new InternalServerExeption();
+        Product newProduct = productsService.createProduct(product);
+        if (newProduct == null) {
+            throw new ApiException("Don't save product in db :(", "newProduct ==null", ExceptionType.SaveInDbException);
         }
         return new ResponseEntity<>(newProduct, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity deleteProduct(@PathVariable("id") Product product) {
-        try {
-            productsService.deleteProduct(product);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            throw new InternalServerExeption();
+        if (!productsService.deleteProduct(product)) {
+            throw new ApiException("Don't delete product :(", "productsService.deleteProduct(product) == null",
+                    ExceptionType.DeleteInDbException);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updateProduct(@PathVariable("id") Product productFromDb, @RequestBody Product productFromReqest) {
-        Map<String, Product> stringProductMap;
-        try {
-            stringProductMap = productsService.updateProduct(productFromDb, productFromReqest);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            throw new InternalServerExeption();
+        Map<String, Product> stringProductMap = productsService.updateProduct(productFromDb, productFromReqest);
+        if (stringProductMap.isEmpty()) {
+            throw new ApiException("Don't update product :(", "productsService.deleteProduct(product) == null",
+                    ExceptionType.UpdateInDbException);
         }
         return new ResponseEntity<>(stringProductMap, HttpStatus.OK);
-
     }
 
-    @PostMapping(value = "favorites", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getFavoriteCategoriesFavoriteProdcuts() {
-        List<FavoriteCategoryProductsResponse> favoriteCategoriesFavoriteProdcuts;
-        try {
-            favoriteCategoriesFavoriteProdcuts = productsService.getFavoriteCategoriesFavoriteProdcuts();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            throw new InternalServerExeption();
+    @PostMapping(value = "/favorites", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getFavoriteCategoriesFavoriteProdcuts(@RequestParam Integer countFavoriteCategries) {
+        List<FavoriteCategoryProductsResponse> favoriteCategoriesFavoriteProdcuts = productsService
+                .getFavoriteCategoriesFavoriteProdcuts(countFavoriteCategries);
+        if (favoriteCategoriesFavoriteProdcuts.isEmpty()) {
+            throw new ApiException("FavoriteCategories have't in db :(",
+                    "favoriteCategoriesFavoriteProdcuts.isEmpty()",
+                    ExceptionType.NoSuchObjs);
         }
         return new ResponseEntity<>(favoriteCategoriesFavoriteProdcuts, HttpStatus.OK);
     }

@@ -1,5 +1,6 @@
 package com.Sales.SalesWeb.service;
 
+import com.Sales.SalesWeb.controller.exception.InternalDataBaseServerExeption;
 import com.Sales.SalesWeb.model.Collection;
 import com.Sales.SalesWeb.repository.CollectionRepository;
 import org.springframework.stereotype.Service;
@@ -15,12 +16,22 @@ public class CollectionService {
     }
 
     public Collection getCollect(Integer id) {
-        return collectionRepository.findByCollectionId(id);
-
+        Collection byCollectionId;
+        try {
+            byCollectionId = collectionRepository.findByCollectionId(id);
+        } catch (RuntimeException e) {
+            throw new InternalDataBaseServerExeption();
+        }
+        return byCollectionId;
     }
 
     public ArrayList<Collection> getAllCollect() {
-        return collectionRepository.findAll();
-
+        ArrayList<Collection> collections;
+        try {
+            collections = collectionRepository.findAll();
+        } catch (RuntimeException e) {
+            throw new InternalDataBaseServerExeption();
+        }
+        return collections;
     }
 }

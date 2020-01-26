@@ -1,6 +1,5 @@
 package com.Sales.SalesWeb.controller;
 
-import com.Sales.SalesWeb.controller.exception.InternalServerExeption;
 import com.Sales.SalesWeb.controller.exception.NoSuchObject;
 import com.Sales.SalesWeb.model.FavoriteCategory;
 import com.Sales.SalesWeb.service.FavoriteCategoriesService;
@@ -26,27 +25,18 @@ public class FavoriteCategoriesController {
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getfavoriteCategoriy(@PathVariable UUID id) {
-        FavoriteCategory favoriteCategory;
-        try {
-            favoriteCategory = favoriteCategoriesService.getfavoriteCategory(id);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            throw new InternalServerExeption();
-        }
+        FavoriteCategory favoriteCategory = favoriteCategoriesService.getfavoriteCategory(id);
         if (favoriteCategory == null) {
             throw new NoSuchObject();
         }
         return new ResponseEntity<>(favoriteCategory, HttpStatus.OK);
     }
 
-    @GetMapping(value = "all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getAllFavoriteCategories() {
-        List<FavoriteCategory> favoriteCategories;
-        try {
-            favoriteCategories = favoriteCategoriesService.getAllFavoriteCategories();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            throw new InternalServerExeption();
+        List<FavoriteCategory> favoriteCategories = favoriteCategoriesService.getAllFavoriteCategories();
+        if (favoriteCategories == null) {
+            throw new NoSuchObject();
         }
         return new ResponseEntity<>(favoriteCategories, HttpStatus.OK);
     }

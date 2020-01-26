@@ -16,12 +16,12 @@ public class SalesController {
 
     private final SalesRepository salesRepository;
 
-    @Autowired
+
     public SalesController(SalesRepository salesRepository) {
         this.salesRepository = salesRepository;
     }
 
-    @GetMapping
+    @GetMapping("all")
     public List<Sale> getSales() {
         return salesRepository.findAll();
     }
@@ -33,7 +33,7 @@ public class SalesController {
     }
 
 
-    @PostMapping
+    @PostMapping("create")
     public Sale createSale(@RequestBody Sale sale) {
         return salesRepository.save(sale);
     }

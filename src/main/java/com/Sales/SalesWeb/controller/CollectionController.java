@@ -1,6 +1,6 @@
 package com.Sales.SalesWeb.controller;
 
-import com.Sales.SalesWeb.controller.exception.InternalServerExeption;
+import com.Sales.SalesWeb.controller.exception.InternalDataBaseServerExeption;
 import com.Sales.SalesWeb.controller.exception.NoSuchObject;
 import com.Sales.SalesWeb.model.Collection;
 import com.Sales.SalesWeb.service.CollectionService;
@@ -25,13 +25,7 @@ public class CollectionController {
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getCollection(@PathVariable Integer id) {
-        Collection collection;
-        try {
-            collection = collectionService.getCollect(id);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            throw new InternalServerExeption();
-        }
+        Collection collection = collectionService.getCollect(id);
         if (collection == null) {
             throw new NoSuchObject();
         }
@@ -45,7 +39,7 @@ public class CollectionController {
             collections = collectionService.getAllCollect();
         } catch (RuntimeException e) {
             e.printStackTrace();
-            throw new InternalServerExeption();
+            throw new InternalDataBaseServerExeption();
         }
         return new ResponseEntity<>(collections, HttpStatus.OK);
     }

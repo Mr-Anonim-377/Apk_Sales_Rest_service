@@ -1,10 +1,13 @@
 package com.Sales.SalesWeb.service;
 
+import com.Sales.SalesWeb.controller.exception.InternalDataBaseServerExeption;
 import com.Sales.SalesWeb.model.FavoriteCategory;
 import com.Sales.SalesWeb.repository.FavoriteCategoryRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,14 +20,34 @@ public class FavoriteCategoriesService {
     }
 
     public FavoriteCategory getfavoriteCategory(UUID id) {
-        return favoriteCategoriesRepository.findByFavoriteCategoryId(id);
-
+        FavoriteCategory favoriteCategory;
+        try {
+            favoriteCategory = favoriteCategoriesRepository.findByFavoriteCategoryId(id);
+        } catch (RuntimeException e) {
+            throw new InternalDataBaseServerExeption();
+        }
+        return favoriteCategory;
     }
 
-    public ArrayList<FavoriteCategory> getAllFavoriteCategories() {
-        ArrayList<FavoriteCategory> favoriteCategories = favoriteCategoriesRepository.findAll();
-        favoriteCategories.sort((o1, o2) -> o2.getPopularValue() - o1.getPopularValue());
+    public List<FavoriteCategory> getAllFavoriteCategories() {
+        List<FavoriteCategory> favoriteCategories;
+        try {
+            favoriteCategories = favoriteCategoriesRepository.findAll(Sort.by("popularValue").descending());
+        } catch (RuntimeException e) {
+            throw new InternalDataBaseServerExeption();
+        }
         return favoriteCategories;
+    }
+
+    public List<FavoriteCategory> getCountFavoriteCategories(Integer count) {
+        Page<FavoriteCategory> favoriteCategories;
+        try {
+            favoriteCategories = favoriteCategoriesRepository.findAll(PageRequest
+                    .of(0, count, Sort.by("popularValue").descending()));
+        } catch (RuntimeException e) {
+            throw new InternalDataBaseServerExeption();
+        }
+        return favoriteCategories.getContent();
     }
 
 }

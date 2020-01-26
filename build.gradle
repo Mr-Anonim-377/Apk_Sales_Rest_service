@@ -37,6 +37,10 @@ flyway {
 }
 dependencies {
     /*
+    jaxb-api
+     */
+    compile('javax.xml.bind:jaxb-api:2.3.0')
+    /*
     ----------swager----------
     */
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0-SNAPSHOT'

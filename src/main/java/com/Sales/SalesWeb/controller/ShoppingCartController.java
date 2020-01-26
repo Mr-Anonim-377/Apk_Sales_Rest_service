@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestController
 @RequestMapping(value = "shoppingCart", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -22,13 +21,13 @@ public class ShoppingCartController {
     }
 
     @GetMapping("/cart")
-    public ResponseEntity<ShoppingCart> getCart(@ModelAttribute ShoppingCart shoppingCart) {
+    public ResponseEntity<ShoppingCart> getCart(@RequestBody ShoppingCart shoppingCart) {
         return new ResponseEntity<>(shoppingCart, HttpStatus.OK);
     }
 
     @PostMapping("/addProduct")
     public ResponseEntity addProduct(@RequestParam("productId") Product product,
-                                     @ModelAttribute ShoppingCart shoppingCart) {
+                                     @RequestBody ShoppingCart shoppingCart) {
         if (product == null) {
             throw new NoSuchObject();
         }
@@ -39,11 +38,11 @@ public class ShoppingCartController {
     @PostMapping("/addProductPieces")
     public ResponseEntity addProductPieces(@RequestParam("numberPieces") Integer numberPieces,
                                            @RequestParam("productId") Product product,
-                                           @ModelAttribute ShoppingCart shoppingCart) {
+                                           @RequestBody ShoppingCart shoppingCart) {
         if (product == null) {
             throw new NoSuchObject();
         }
-        if(numberPieces<=0){
+        if (numberPieces <= 0) {
             throw new BadParamForRequest();
         }
         shoppingCartService.addProductPieces(product, shoppingCart, numberPieces);
@@ -51,8 +50,8 @@ public class ShoppingCartController {
     }
 
     @DeleteMapping("/deleteProduct")
-    public ResponseEntity deleteProduct (@RequestParam("productId") Product product,
-                                         @ModelAttribute ShoppingCart shoppingCart){
+    public ResponseEntity deleteProduct(@RequestParam("productId") Product product,
+                                        @RequestBody ShoppingCart shoppingCart) {
 
         if (product == null) {
             throw new NoSuchObject();
@@ -62,22 +61,23 @@ public class ShoppingCartController {
     }
 
     @DeleteMapping("/deleteProductPieces")
-    public ResponseEntity deleteProductPieces (@RequestParam("numberPieces") Integer numberPieces,
-                                               @RequestParam("productId") Product product,
-                                               @ModelAttribute ShoppingCart shoppingCart){
+    public ResponseEntity deleteProductPieces(@RequestParam("numberPieces") Integer numberPieces,
+                                              @RequestParam("productId") Product product,
+                                              @RequestBody ShoppingCart shoppingCart) {
 
         if (product == null) {
             throw new NoSuchObject();
         }
-        if(numberPieces<=0){
+        if (numberPieces <= 0) {
             throw new BadParamForRequest();
         }
-        shoppingCartService.deleteProductPieces(product, shoppingCart,numberPieces);
+        shoppingCartService.deleteProductPieces(product, shoppingCart, numberPieces);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @ModelAttribute("shoppingCart")
+    @ModelAttribute()
     public ShoppingCart createUser() {
+        System.out.println("");
         return new ShoppingCart();
     }
 }
