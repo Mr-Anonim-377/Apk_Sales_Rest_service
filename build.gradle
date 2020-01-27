@@ -7,9 +7,9 @@ plugins {
 }
 group = 'com.Sales'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
-sourceCompatibility = JavaVersion.VERSION_12
-targetCompatibility = JavaVersion.VERSION_12
+sourceCompatibility = '8'
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 configurations {
     jaxb
