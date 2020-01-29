@@ -1,15 +1,14 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.0.RC1'
-    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'org.springframework.boot' version '2.3.0.BUILD-SNAPSHOT'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
     id 'war'
     id "org.flywaydb.flyway" version "6.0.8"
 }
 group = 'com.Sales'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
-sourceCompatibility = JavaVersion.VERSION_12
-targetCompatibility = JavaVersion.VERSION_12
+sourceCompatibility = JavaVersion.VERSION_1_8
+
 
 configurations {
     jaxb
@@ -17,11 +16,15 @@ configurations {
     runtimeClasspath {
         extendsFrom developmentOnly
     }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 repositories {
     mavenCentral()
-    jcenter()
     maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/snapshot' }
+    jcenter()
     maven { url 'http://oss.jfrog.org/artifactory/oss-snapshot-local/' }
 
 }
@@ -35,7 +38,9 @@ flyway {
     user = 'postgres'
     password = 'admin'
 }
+
 dependencies {
+
     /*
     jaxb-api
      */
@@ -64,16 +69,21 @@ dependencies {
     ----------springframework----------
     */
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-//    implementation 'org.springframework.boot:spring-boot-starter-parent'
-    compile group: 'org.springframework.security', name: 'spring-security-core', version: '5.2.0.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web-services'
+    implementation 'org.springframework.session:spring-session-core'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 test {
