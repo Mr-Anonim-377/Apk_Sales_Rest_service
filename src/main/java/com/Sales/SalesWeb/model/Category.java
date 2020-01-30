@@ -3,7 +3,9 @@ package com.Sales.SalesWeb.model;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity()
 @Table(name = "categories")

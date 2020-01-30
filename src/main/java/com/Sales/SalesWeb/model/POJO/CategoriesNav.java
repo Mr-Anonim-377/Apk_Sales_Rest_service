@@ -3,10 +3,7 @@ package com.Sales.SalesWeb.model.POJO;
 import com.Sales.SalesWeb.model.Category;
 import lombok.Data;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Data
 public class CategoriesNav {

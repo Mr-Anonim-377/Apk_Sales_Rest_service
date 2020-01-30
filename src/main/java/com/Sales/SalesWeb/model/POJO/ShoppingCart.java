@@ -8,10 +8,10 @@ import java.util.Map;
 
 @Data
 public class ShoppingCart {
-    Map<String, ShoppingProduct> products;
-    BigDecimal totalAmount;
-    Integer countProducts;
-    Integer countProductsPieces;
+    private Map<String, ShoppingProduct> products;
+    private BigDecimal totalAmount;
+    private Integer countProducts;
+    private Integer countProductsPieces;
 
 
     public ShoppingCart() {

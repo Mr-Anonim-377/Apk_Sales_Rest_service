@@ -4,7 +4,6 @@ package com.Sales.SalesWeb.controller;
 import com.Sales.SalesWeb.model.Sale;
 import com.Sales.SalesWeb.repository.SalesRepository;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

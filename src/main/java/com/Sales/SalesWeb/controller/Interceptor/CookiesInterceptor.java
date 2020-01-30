@@ -11,7 +11,7 @@ public class CookiesInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(
             HttpServletRequest request,
             HttpServletResponse response,
-            Object handler) throws Exception {
+            Object handler) {
         request.getSession();
         return true;
     }
