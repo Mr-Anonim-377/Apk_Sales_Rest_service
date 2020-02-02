@@ -43,9 +43,9 @@ bootJar {
 //    }
 }
 flyway {
-    url = 'jdbc:postgresql://localhost:5432/sales'
+    url = 'jdbc:postgresql://ec2-13-58-76-77.us-east-2.compute.amazonaws.com:5432/sales'
     user = 'postgres'
-    password = 'admin'
+    password = 'admin123456'
 }
 
 dependencies {
