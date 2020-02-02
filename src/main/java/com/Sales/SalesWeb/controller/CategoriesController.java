@@ -23,7 +23,7 @@ public class CategoriesController {
 
     @GetMapping(value = "/Navigation", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getAllNavigationCategories() {
-            Navigation navigationCategories = categoriesService.getAllNavigationCategories();
+        Navigation navigationCategories = categoriesService.getAllNavigationCategories();
         if (navigationCategories == null) {
             throw new ApiException("No search Navigation in db :(",
                     "navigationCategories == null",

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.UUID;
+
 @Repository
 public interface FavoriteCategoryRepository extends JpaRepository<FavoriteCategory, UUID> {
 

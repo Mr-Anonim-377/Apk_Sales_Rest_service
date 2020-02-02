@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SearchService {
-    private static final int PAGE_SIZE =20;
+    private static final int PAGE_SIZE = 20;
     private final ProductRepository productRepository;
 
     public SearchService(ProductRepository productRepository) {
@@ -18,11 +18,11 @@ public class SearchService {
     }
 
 
-    public Page<Product> searchOnProductName(String name, int page){
-        try{
+    public Page<Product> searchOnProductName(String name, int page) {
+        try {
             Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-            return productRepository.findByNameProductContains(name,pageable);
-        }catch (RuntimeException e){
+            return productRepository.findByNameProductContains(name, pageable);
+        } catch (RuntimeException e) {
             throw new InternalDataBaseServerExeption();
         }
     }

@@ -15,7 +15,7 @@ public class ApiException extends RuntimeException {
     private ExceptionType type;
     private String reason;
 
-    public ApiException(String message,String reason,ExceptionType type) {
+    public ApiException(String message, String reason, ExceptionType type) {
         super(message);
         this.reason = reason;
         this.type = type;

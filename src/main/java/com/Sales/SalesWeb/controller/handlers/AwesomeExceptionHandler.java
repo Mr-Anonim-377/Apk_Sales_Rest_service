@@ -24,7 +24,7 @@ public class AwesomeExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<ApiExceptionResponse> handleNoSuchObject() {
         return new ResponseEntity<>(new ApiExceptionResponse(
                 LocalDateTime.now().format(formatter),
-                "No such object in db","Objet==null",
+                "No such object in db", "Objet==null",
                 ExceptionType.NoSuchObj), HttpStatus.NOT_FOUND);
     }
 
@@ -41,7 +41,7 @@ public class AwesomeExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<ApiExceptionResponse> handleNoSuchObjects() {
         return new ResponseEntity<>(new ApiExceptionResponse(
                 LocalDateTime.now().format(formatter),
-                "No such objects in db","Objets==null",
+                "No such objects in db", "Objets==null",
                 ExceptionType.NoSuchObjs), HttpStatus.NOT_FOUND);
     }
 
@@ -49,7 +49,7 @@ public class AwesomeExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<ApiExceptionResponse> handleNoHttpValidationParametrs() {
         return new ResponseEntity<>(new ApiExceptionResponse(
                 LocalDateTime.now().format(formatter),
-                "No Valid request param","reqestParam!=expected",
+                "No Valid request param", "reqestParam!=expected",
                 ExceptionType.ArgumentTypeMismatch), HttpStatus.BAD_REQUEST);
     }
 
@@ -57,7 +57,7 @@ public class AwesomeExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<ApiExceptionResponse> handleIntermalServerError(Exception exc) {
         return new ResponseEntity<>(new ApiExceptionResponse(
                 LocalDateTime.now().format(formatter),
-                "Service error, try again later","the database query",
+                "Service error, try again later", "the database query",
                 ExceptionType.InternalServerError), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -65,7 +65,7 @@ public class AwesomeExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<ApiExceptionResponse> handleBadParamForReqest(Exception exc) {
         return new ResponseEntity<>(new ApiExceptionResponse(
                 LocalDateTime.now().format(formatter),
-                "Bad param for request","",
+                "Bad param for request", "",
                 ExceptionType.BadParamForRequest), HttpStatus.BAD_REQUEST);
     }
 
@@ -73,12 +73,12 @@ public class AwesomeExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<ApiExceptionResponse> handleShoppingProductNotSuch(Exception exc) {
         return new ResponseEntity<>(new ApiExceptionResponse(
                 LocalDateTime.now().format(formatter),
-                "Shopping product not such","shopProduct==null",
+                "Shopping product not such", "shopProduct==null",
                 ExceptionType.NoSuchObj), HttpStatus.BAD_REQUEST);
     }
 
     @Data
-    private static class ApiExceptionResponse{
+    private static class ApiExceptionResponse {
         private String dateTime;
         private String message;
         private ExceptionType type;

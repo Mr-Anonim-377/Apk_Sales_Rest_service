@@ -10,7 +10,4 @@ import java.util.UUID;
 public interface SalesRepository extends JpaRepository<Sale, UUID> {
 
 
-
-
-
 }

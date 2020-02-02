@@ -22,11 +22,11 @@ public class ShoppingCartController {
     }
 
     @GetMapping(value = "/cart")
-    public ResponseEntity<ShoppingCart> getCart( ShoppingCart shoppingCart) {
+    public ResponseEntity<ShoppingCart> getCart(ShoppingCart shoppingCart) {
         return new ResponseEntity<>(shoppingCart, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/addProduct",params = {"productId"})
+    @PostMapping(value = "/addProduct", params = {"productId"})
     public ResponseEntity addProduct(@RequestParam("productId") Product product,
                                      ShoppingCart shoppingCart) {
         if (product == null) {
@@ -36,7 +36,7 @@ public class ShoppingCartController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PostMapping(name = "/addProductPieces",params = {"numberPieces","productId"})
+    @PostMapping(name = "/addProductPieces", params = {"numberPieces", "productId"})
     public ResponseEntity addProductPieces(@RequestParam("numberPieces") Integer numberPieces,
                                            @RequestParam("productId") Product product,
                                            ShoppingCart shoppingCart) {
@@ -50,7 +50,7 @@ public class ShoppingCartController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/deleteProduct",params = {"productId"})
+    @DeleteMapping(value = "/deleteProduct", params = {"productId"})
     public ResponseEntity deleteProduct(@RequestParam("productId") Product product,
                                         ShoppingCart shoppingCart) {
 
@@ -61,7 +61,7 @@ public class ShoppingCartController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @DeleteMapping(name = "/deleteProductPieces",params = {"numberPieces","productId"})
+    @DeleteMapping(name = "/deleteProductPieces", params = {"numberPieces", "productId"})
     public ResponseEntity deleteProductPieces(@RequestParam("numberPieces") Integer numberPieces,
                                               @RequestParam("productId") Product product,
                                               ShoppingCart shoppingCart) {

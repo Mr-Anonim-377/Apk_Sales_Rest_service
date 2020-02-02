@@ -6,10 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.UUID;
+
 @Repository
 public interface CollectionRepository extends JpaRepository<Collection, UUID> {
 
     Collection findByCollectionId(Integer categoryId);
+
     ArrayList<Collection> findAll();
 
 }

@@ -25,8 +25,8 @@ public class CategoriesService {
     public Navigation getAllNavigationCategories() {
         Navigation navigation = new Navigation();
         navigation.setFavoriteCategories(favoriteCategoriesService.getCountFavoriteCategories(5).stream()
-                .map(i->new FavoriteCategoryNav(categoryRepository
-                        .findByCategoryId(i.getCategoryId()).getCategoryName(),i))
+                .map(i -> new FavoriteCategoryNav(categoryRepository
+                        .findByCategoryId(i.getCategoryId()).getCategoryName(), i))
                 .collect(Collectors.toList()));
         navigation.setCategoriesNavigation(getCategoriesNav());
         return navigation;
@@ -35,7 +35,7 @@ public class CategoriesService {
     private List<CategoriesNav> getCategoriesNav() {
         List<Category> categoriesNavs = categoryRepository.findAllByParentCategoryIdIsNull();
         return categoriesNavs.stream()
-                .map(i -> new CategoriesNav(i.getCategoryName(),i, getChildCategoriesNav(i.getCategoryId())))
+                .map(i -> new CategoriesNav(i.getCategoryName(), i, getChildCategoriesNav(i.getCategoryId())))
                 .collect(Collectors.toList());
     }
 
@@ -43,7 +43,7 @@ public class CategoriesService {
         List<Category> allByParentCategoryId = categoryRepository.findAllByParentCategoryId(categoryId);
         if (!allByParentCategoryId.isEmpty()) {
             return allByParentCategoryId.stream()
-                    .map(i -> new CategoriesNav(i.getCategoryName(),i, getChildCategoriesNav(i.getCategoryId())))
+                    .map(i -> new CategoriesNav(i.getCategoryName(), i, getChildCategoriesNav(i.getCategoryId())))
                     .collect(Collectors.toList());
         } else {
             return new ArrayList<>();

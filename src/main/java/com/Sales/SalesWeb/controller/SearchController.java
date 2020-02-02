@@ -26,13 +26,13 @@ public class SearchController {
 
     @GetMapping(value = "/onProductsName", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity searchOnProduct(@RequestParam String name, @RequestParam int page) {
-        if(name.length()<=3){
+        if (name.length() <= 3) {
             throw new ApiException("The search string is less than or equal to 3  -_-",
                     "name.length()<=3",
                     ExceptionType.WrongSearchString);
         }
         Page<Product> products = searchService.searchOnProductName(name, page);
-        if(products.isEmpty()){
+        if (products.isEmpty()) {
             throw new NoSuchObjects();
         }
         return new ResponseEntity<>(products, HttpStatus.OK);

@@ -10,7 +10,6 @@ public class Navigation {
     private List<CategoriesNav> categoriesNavigation;
 
 
-
 }
 
 
