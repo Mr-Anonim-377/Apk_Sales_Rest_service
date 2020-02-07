@@ -3,7 +3,7 @@ package com.Sales.SalesWeb.controller;
 import com.Sales.SalesWeb.controller.exception.ApiException;
 import com.Sales.SalesWeb.controller.exception.enums.ExceptionType;
 import com.Sales.SalesWeb.model.Baner;
-import com.Sales.SalesWeb.model.enums.Page;
+import com.Sales.SalesWeb.model.dbEnums.Page;
 import com.Sales.SalesWeb.service.BanerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

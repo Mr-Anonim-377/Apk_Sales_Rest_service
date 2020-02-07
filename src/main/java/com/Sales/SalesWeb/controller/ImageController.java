@@ -23,7 +23,7 @@ public class ImageController {
     }
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getCollection(@PathVariable UUID id) {
+    public ResponseEntity getImage(@PathVariable UUID id) {
         Image image = imageService.getImage(id);
         if (image == null) {
             throw new NoSuchObject();

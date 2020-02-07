@@ -1,4 +1,4 @@
-package com.Sales.SalesWeb.controller.HttpFilter;
+package com.Sales.SalesWeb.config.httpFilter;
 
 import org.springframework.stereotype.Component;
 

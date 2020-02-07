@@ -1,7 +1,7 @@
 package com.Sales.SalesWeb.repository;
 
 import com.Sales.SalesWeb.model.Baner;
-import com.Sales.SalesWeb.model.enums.Page;
+import com.Sales.SalesWeb.model.dbEnums.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

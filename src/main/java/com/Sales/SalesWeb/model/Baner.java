@@ -1,7 +1,7 @@
 package com.Sales.SalesWeb.model;
 
-import com.Sales.SalesWeb.model.enums.BanerLocation;
-import com.Sales.SalesWeb.model.enums.Page;
+import com.Sales.SalesWeb.model.dbEnums.BanerLocation;
+import com.Sales.SalesWeb.model.dbEnums.Page;
 import lombok.Data;
 
 import javax.persistence.*;

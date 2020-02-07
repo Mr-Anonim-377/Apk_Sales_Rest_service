@@ -2,7 +2,7 @@ package com.Sales.SalesWeb.service;
 
 import com.Sales.SalesWeb.controller.exception.InternalDataBaseServerExeption;
 import com.Sales.SalesWeb.model.Baner;
-import com.Sales.SalesWeb.model.enums.Page;
+import com.Sales.SalesWeb.model.dbEnums.Page;
 import com.Sales.SalesWeb.repository.BanersRepository;
 import org.springframework.stereotype.Service;
 

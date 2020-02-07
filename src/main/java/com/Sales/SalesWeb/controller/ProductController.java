@@ -7,24 +7,41 @@ import com.Sales.SalesWeb.controller.exception.enums.ExceptionType;
 import com.Sales.SalesWeb.model.POJO.FavoriteCategoryProductsResponse;
 import com.Sales.SalesWeb.model.Product;
 import com.Sales.SalesWeb.service.ProductsService;
-import io.swagger.annotations.Api;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "products", produces = MediaType.APPLICATION_JSON_VALUE)
-@Api(value = "onlinestore", description = "Operations pertaining to products in Online Store")
 public class ProductController {
     private final ProductsService productsService;
 
     public ProductController(ProductsService productsService) {
         this.productsService = productsService;
+    }
+
+    @GetMapping(value = "/category", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getProductsOnCategpry(@RequestParam Integer id,
+                                                @RequestParam(required = false) BigDecimal minPrice,
+                                                @RequestParam(required = false) BigDecimal maxPrice, int page) {
+        Page<Product> products;
+        if (minPrice != null || maxPrice != null) {
+            products = productsService.getProductsOnCategpryWithPArameters(id, page,minPrice,maxPrice);
+        } else {
+            products = productsService.getProductsOnCategpry(id, page);
+        }
+        if (products == null || products.isEmpty()) {
+            throw new NoSuchObject();
+        }
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)

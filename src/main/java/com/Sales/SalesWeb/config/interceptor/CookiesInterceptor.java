@@ -1,4 +1,4 @@
-package com.Sales.SalesWeb.controller.Interceptor;
+package com.Sales.SalesWeb.config.interceptor;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 

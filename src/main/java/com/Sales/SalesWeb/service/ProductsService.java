@@ -10,12 +10,17 @@ import com.Sales.SalesWeb.repository.FavoriteCategoryProductsRepository;
 import com.Sales.SalesWeb.repository.FavoriteCategoryRepository;
 import com.Sales.SalesWeb.repository.ProductRepository;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.Sales.SalesWeb.controller.ControllerConfig.PAGE_SIZE;
 
 @Service
 public class ProductsService {
@@ -34,6 +39,27 @@ public class ProductsService {
         this.categoryRepository = categoryRepository;
     }
 
+    public Page<Product> getProductsOnCategpry(Integer id, int page) {
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        Page<Product> products;
+        try {
+            products = productRepository.findAllByProductCategoryId(id, pageable);
+        } catch (RuntimeException e) {
+            throw new InternalDataBaseServerExeption();
+        }
+        return products;
+    }
+
+    public Page<Product> getProductsOnCategpryWithPArameters(Integer id, int page, BigDecimal minPrice, BigDecimal maxPrice) {
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        Page<Product> products;
+        try {
+            products = productRepository.findAllByProductCategoryIdAndPriceAfterAndPriceBefore(id, minPrice, maxPrice, pageable);
+        } catch (RuntimeException e) {
+            throw new InternalDataBaseServerExeption();
+        }
+        return products;
+    }
 
     public Product getProduct(UUID id) {
         Product product;

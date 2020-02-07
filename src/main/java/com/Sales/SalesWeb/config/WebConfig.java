@@ -1,6 +1,6 @@
 package com.Sales.SalesWeb.config;
 
-import com.Sales.SalesWeb.controller.Interceptor.CookiesInterceptor;
+import com.Sales.SalesWeb.config.interceptor.CookiesInterceptor;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
