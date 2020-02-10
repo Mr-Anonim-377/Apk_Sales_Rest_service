@@ -9,6 +9,7 @@ import com.Sales.SalesWeb.repository.CategoryRepository;
 import com.Sales.SalesWeb.repository.FavoriteCategoryProductsRepository;
 import com.Sales.SalesWeb.repository.FavoriteCategoryRepository;
 import com.Sales.SalesWeb.repository.ProductRepository;
+import com.Sales.SalesWeb.service.utils.FilterOnProduct;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static com.Sales.SalesWeb.controller.ControllerConfig.PAGE_SIZE;
@@ -37,9 +39,15 @@ public class ProductsService {
         this.favoriteCategoriesRepository = favoriteCategoriesRepository;
         this.favoriteCategoryProductsRepository = favoriteCategoryProductsRepository;
         this.categoryRepository = categoryRepository;
+
     }
 
-    public Page<Product> getProductsOnCategpry(Integer id, int page) {
+
+    public List<Product> applyFilterOnProducts(List<Product> products, FilterOnProduct filterType) {
+        return filterType.applyFilterOnProducts(products);
+    }
+
+    public Page<Product> getProductsOnCategory(Integer id, int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         Page<Product> products;
         try {
@@ -50,7 +58,7 @@ public class ProductsService {
         return products;
     }
 
-    public Page<Product> getProductsOnCategpryWithPArameters(Integer id, int page, BigDecimal minPrice, BigDecimal maxPrice) {
+    public Page<Product> getProductsOnCategpryWithParameters(Integer id, int page, BigDecimal minPrice, BigDecimal maxPrice) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         Page<Product> products;
         try {
@@ -65,7 +73,7 @@ public class ProductsService {
         Product product;
         try {
             product = productRepository.findByProductId(id);
-            ;
+
         } catch (RuntimeException e) {
             throw new InternalDataBaseServerExeption();
         }

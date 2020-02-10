@@ -15,16 +15,19 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID productId;
 
-
     private String nameProduct;
 
     private Integer productCategoryId;
 
     private BigDecimal price;
 
-    private UUID imageId;
+    @OneToOne (optional=false, cascade=CascadeType.ALL)
+    @JoinColumn (name="image_id")
+    private Image image;
 
-    private Integer collectionId;
+    @ManyToOne (optional=false, cascade=CascadeType.ALL)
+    @JoinColumn (name="collection_id")
+    private Collection collection;
 
     //    @Column(name = "properties")
 //    @Type(type = "com.Sale.SalesWeb.model.dataType.JsonType")

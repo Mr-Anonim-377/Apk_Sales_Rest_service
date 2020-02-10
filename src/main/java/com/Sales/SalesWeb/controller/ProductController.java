@@ -7,17 +7,16 @@ import com.Sales.SalesWeb.controller.exception.enums.ExceptionType;
 import com.Sales.SalesWeb.model.POJO.FavoriteCategoryProductsResponse;
 import com.Sales.SalesWeb.model.Product;
 import com.Sales.SalesWeb.service.ProductsService;
-import org.springframework.data.domain.Page;
+import com.Sales.SalesWeb.service.utils.FilterOnProduct;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "products", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -31,13 +30,20 @@ public class ProductController {
     @GetMapping(value = "/category", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getProductsOnCategpry(@RequestParam Integer id,
                                                 @RequestParam(required = false) BigDecimal minPrice,
-                                                @RequestParam(required = false) BigDecimal maxPrice, int page) {
-        Page<Product> products;
-        if (minPrice != null || maxPrice != null) {
-            products = productsService.getProductsOnCategpryWithPArameters(id, page,minPrice,maxPrice);
-        } else {
-            products = productsService.getProductsOnCategpry(id, page);
-        }
+                                                @RequestParam(required = false) BigDecimal maxPrice,
+                                                @RequestParam(required = false) Integer collectionId,
+                                                int page) {
+        FilterOnProduct  filter = new FilterOnProduct(minPrice, maxPrice, collectionId);
+        List<Product> products = productsService.getProductsOnCategory(id, page).toList();
+        products = productsService.applyFilterOnProducts(products,filter);
+
+//        Page<Product> products;
+//        if (minPrice != null || maxPrice != null) {
+//            products = productsService.getProductsOnCategpryWithParameters(id, page,minPrice,maxPrice);
+//        } else {
+//            products = productsService.getProductsOnCategory(id, page);
+//        }
+
         if (products == null || products.isEmpty()) {
             throw new NoSuchObject();
         }

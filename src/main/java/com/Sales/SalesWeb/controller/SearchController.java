@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -35,17 +34,17 @@ public class SearchController {
                     ExceptionType.WrongSearchString);
         }
         List<Product> products;
-            switch (searchType) {
-                case ON_PRODUCT_NAME:
-                    products = searchService.searchOnProductName(searchString, page).toList();
-                case ON_PRODUCT_PROPERTIES:
-                    products = searchService.searchOnProductProperties(searchString, page).toList();
-                case ON_PRODUCT_DESCRIPTION:
-                    products = searchService.searchOnProductDescription(searchString, page).toList();
-                default:
-                    products = searchService.searchOnNameProductOrPropertiesOrProductDescription(searchString, page)
-                            .toList();
-            }
+        switch (searchType) {
+            case ON_PRODUCT_NAME:
+                products = searchService.searchOnProductName(searchString, page).toList();
+            case ON_PRODUCT_PROPERTIES:
+                products = searchService.searchOnProductProperties(searchString, page).toList();
+            case ON_PRODUCT_DESCRIPTION:
+                products = searchService.searchOnProductDescription(searchString, page).toList();
+            default:
+                products = searchService.searchOnNameProductOrPropertiesOrProductDescription(searchString, page)
+                        .toList();
+        }
         if (products.isEmpty()) {
             throw new NoSuchObjects();
         }

@@ -15,7 +15,9 @@ public class Baner {
     @Id
     private Integer banerId;
 
-    private UUID imageId;
+    @OneToOne (optional=false, cascade=CascadeType.ALL)
+    @JoinColumn (name="image_id")
+    private Image image;
 
     private String title;
 

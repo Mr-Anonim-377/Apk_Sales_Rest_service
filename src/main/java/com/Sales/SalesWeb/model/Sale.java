@@ -2,9 +2,7 @@ package com.Sales.SalesWeb.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -18,7 +16,9 @@ public class Sale {
 
     private String saleName;
 
-    private UUID imageId;
+    @OneToOne(optional=false, cascade= CascadeType.ALL)
+    @JoinColumn (name="image_id")
+    private Image image;
 
     private BigDecimal discount;
 }

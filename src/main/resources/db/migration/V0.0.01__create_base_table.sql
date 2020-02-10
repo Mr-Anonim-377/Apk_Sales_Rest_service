@@ -52,7 +52,7 @@ create TABLE "orders_delivery"
     CONSTRAINT "order_delivery_pkey" PRIMARY KEY ("order_delivery_id")
 );
 
-create type reviews_type as ENUM ('order','site','product');
+create type reviews_type as ENUM ('ORDER','SITE','PRODUCT');
 
 create TABLE "reviews"
 (
@@ -65,7 +65,7 @@ create TABLE "reviews"
     CONSTRAINT "Review_pkey" PRIMARY KEY ("review_id")
 );
 
-create TABLE "order_review"
+create TABLE "order_reviews"
 (
     "order_review_id" uuid NOT NULL default gen_random_uuid(),
     "order_id"        uuid NOT NULL,
@@ -204,9 +204,9 @@ ALTER TABLE "favorite_category_products"
     ADD CONSTRAINT "fk_favoriteCategoryProducts_favoriteCategory" FOREIGN KEY ("favorite_category_id") REFERENCES "favorite_category" ("favorite_category_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "favorite_category_products"
     ADD CONSTRAINT "fk_favoriteCategoryProducts_products" FOREIGN KEY ("product_id") REFERENCES "products" ("product_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE "order_review"
+ALTER TABLE "order_reviews"
     ADD CONSTRAINT "fk_orderReview_orders" FOREIGN KEY ("order_id") REFERENCES "orders" ("order_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE "order_review"
+ALTER TABLE "order_reviews"
     ADD CONSTRAINT "fk_orderReview_reviews" FOREIGN KEY ("review_id") REFERENCES "reviews" ("review_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "orders"
     ADD CONSTRAINT "fk_orders_ordersDelivery" FOREIGN KEY ("order_delivery_id") REFERENCES "orders_delivery" ("order_delivery_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
