@@ -2,8 +2,9 @@ package com.Sales.SalesWeb.model;
 
 import lombok.Data;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity
@@ -17,5 +18,4 @@ public class SalesProduct {
     private Integer saleId;
 
     private UUID productId;
-
 }

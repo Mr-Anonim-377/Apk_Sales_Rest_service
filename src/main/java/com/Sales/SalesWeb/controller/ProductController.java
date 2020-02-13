@@ -32,7 +32,7 @@ public class ProductController {
                                                 @RequestParam(required = false) BigDecimal minPrice,
                                                 @RequestParam(required = false) BigDecimal maxPrice,
                                                 @RequestParam(required = false) Integer collectionId,
-                                                int page) {
+                                                @RequestParam int page) {
         FilterOnProduct  filter = new FilterOnProduct(minPrice, maxPrice, collectionId);
         List<Product> products = productsService.getProductsOnCategory(id, page).toList();
         products = productsService.applyFilterOnProducts(products,filter);

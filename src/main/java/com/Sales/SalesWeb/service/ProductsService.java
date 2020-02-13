@@ -10,23 +10,24 @@ import com.Sales.SalesWeb.repository.FavoriteCategoryProductsRepository;
 import com.Sales.SalesWeb.repository.FavoriteCategoryRepository;
 import com.Sales.SalesWeb.repository.ProductRepository;
 import com.Sales.SalesWeb.service.utils.FilterOnProduct;
+import com.Sales.SalesWeb.service.utils.PaginationManager;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static com.Sales.SalesWeb.controller.ControllerConfig.PAGE_SIZE;
 
 @Service
 public class ProductsService {
-    private final ProductRepository productRepository;
+    ProductRepository productRepository;
     private final FavoriteCategoryRepository favoriteCategoriesRepository;
     private final FavoriteCategoryProductsRepository favoriteCategoryProductsRepository;
     private final CategoryRepository categoryRepository;
@@ -48,7 +49,21 @@ public class ProductsService {
     }
 
     public Page<Product> getProductsOnCategory(Integer id, int page) {
-        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        Pageable pageable = PageRequest.of(page, 4);
+
+//        Page<Product> test = productRepository.findAllByProductCategoryId(id, pageable);
+//        List<Product> list = test.filter(i -> i.getCollection().getCollectionId().equals(3)).toList();
+
+//        Pageable pageable = new PaginationManager(0,5);
+//        Page<Product> test = productRepository.findAllByProductCategoryId(id, pageable);
+//        List<Product> list = test.filter(i -> i.getCollection().getCollectionId().equals(3)).toList();
+
+        PaginationManager<Product,ProductRepository> paginationManager = new PaginationManager(1,1, productRepository,productRepository,productRepository);
+        List<Object> objects = new ArrayList<Object>(){{
+            add(id);
+        }};
+        paginationManager.defoltPagination(objects,"findAllByProductCategoryId");
+
         Page<Product> products;
         try {
             products = productRepository.findAllByProductCategoryId(id, pageable);
