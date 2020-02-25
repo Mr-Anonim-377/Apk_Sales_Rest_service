@@ -25,9 +25,11 @@ public class Product {
     @JoinColumn (name="image_id")
     private Image image;
 
-    @ManyToOne (optional=false, cascade=CascadeType.ALL)
-    @JoinColumn (name="collection_id")
-    private Collection collection;
+//    @ManyToOne (optional=false, cascade=CascadeType.ALL)
+//    @JoinColumn (name="collection_id")
+//    private Collection collection;
+
+    private Integer collectionId;
 
     //    @Column(name = "properties")
 //    @Type(type = "com.Sale.SalesWeb.model.dataType.JsonType")

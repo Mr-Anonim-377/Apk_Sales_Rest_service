@@ -9,25 +9,24 @@ import com.Sales.SalesWeb.repository.CategoryRepository;
 import com.Sales.SalesWeb.repository.FavoriteCategoryProductsRepository;
 import com.Sales.SalesWeb.repository.FavoriteCategoryRepository;
 import com.Sales.SalesWeb.repository.ProductRepository;
-import com.Sales.SalesWeb.service.utils.FilterOnProduct;
-import com.Sales.SalesWeb.service.utils.PaginationManager;
+import com.Sales.SalesWeb.service.Specification.AbstractSpecFacory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.Sales.SalesWeb.controller.ControllerConfig.PAGE_SIZE;
-
 @Service
 public class ProductsService {
-    ProductRepository productRepository;
+    private final ProductRepository productRepository;
     private final FavoriteCategoryRepository favoriteCategoriesRepository;
     private final FavoriteCategoryProductsRepository favoriteCategoryProductsRepository;
     private final CategoryRepository categoryRepository;
@@ -43,46 +42,28 @@ public class ProductsService {
 
     }
 
-
-    public List<Product> applyFilterOnProducts(List<Product> products, FilterOnProduct filterType) {
-        return filterType.applyFilterOnProducts(products);
-    }
-
-    public Page<Product> getProductsOnCategory(Integer id, int page) {
+    public List<Object> getProductWithCollectionId(Map<String, List<BigDecimal>> betwenArg, int page, Map<String, Object> map) {
+        AbstractSpecFacory abstractSpecFacory = new AbstractSpecFacory() {
+            @Override
+            protected <T> Predicate createBetwenPredicate(CriteriaBuilder criteriaBuilder, Root<Object> root,
+                                                          List<T> betwenArg, String alias) {
+                List<BigDecimal> currentArg = betwenArg.stream().map(element -> (BigDecimal) element)
+                        .collect(Collectors.toList());
+                return criteriaBuilder.between(root.get(alias), currentArg.get(0), currentArg.get(1));
+            }
+        };
         Pageable pageable = PageRequest.of(page, 4);
-
-//        Page<Product> test = productRepository.findAllByProductCategoryId(id, pageable);
-//        List<Product> list = test.filter(i -> i.getCollection().getCollectionId().equals(3)).toList();
-
-//        Pageable pageable = new PaginationManager(0,5);
-//        Page<Product> test = productRepository.findAllByProductCategoryId(id, pageable);
-//        List<Product> list = test.filter(i -> i.getCollection().getCollectionId().equals(3)).toList();
-
-        PaginationManager<Product,ProductRepository> paginationManager = new PaginationManager(1,1, productRepository,productRepository,productRepository);
-        List<Object> objects = new ArrayList<Object>(){{
-            add(id);
-        }};
-        paginationManager.defoltPagination(objects,"findAllByProductCategoryId");
-
-        Page<Product> products;
+        Specification<Object> specification = abstractSpecFacory.getSpecification(betwenArg, map);
+        List<Object> product;
         try {
-            products = productRepository.findAllByProductCategoryId(id, pageable);
+            product = productRepository.findAll(specification, pageable).getContent();
+
         } catch (RuntimeException e) {
             throw new InternalDataBaseServerExeption();
         }
-        return products;
+        return product;
     }
 
-    public Page<Product> getProductsOnCategpryWithParameters(Integer id, int page, BigDecimal minPrice, BigDecimal maxPrice) {
-        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        Page<Product> products;
-        try {
-            products = productRepository.findAllByProductCategoryIdAndPriceAfterAndPriceBefore(id, minPrice, maxPrice, pageable);
-        } catch (RuntimeException e) {
-            throw new InternalDataBaseServerExeption();
-        }
-        return products;
-    }
 
     public Product getProduct(UUID id) {
         Product product;

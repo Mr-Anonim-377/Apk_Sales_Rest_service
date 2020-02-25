@@ -7,16 +7,17 @@ import com.Sales.SalesWeb.controller.exception.enums.ExceptionType;
 import com.Sales.SalesWeb.model.POJO.FavoriteCategoryProductsResponse;
 import com.Sales.SalesWeb.model.Product;
 import com.Sales.SalesWeb.service.ProductsService;
-import com.Sales.SalesWeb.service.utils.FilterOnProduct;
+import com.google.common.collect.ImmutableMap;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "products", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,17 +34,8 @@ public class ProductController {
                                                 @RequestParam(required = false) BigDecimal maxPrice,
                                                 @RequestParam(required = false) Integer collectionId,
                                                 @RequestParam int page) {
-        FilterOnProduct  filter = new FilterOnProduct(minPrice, maxPrice, collectionId);
-        List<Product> products = productsService.getProductsOnCategory(id, page).toList();
-        products = productsService.applyFilterOnProducts(products,filter);
-
-//        Page<Product> products;
-//        if (minPrice != null || maxPrice != null) {
-//            products = productsService.getProductsOnCategpryWithParameters(id, page,minPrice,maxPrice);
-//        } else {
-//            products = productsService.getProductsOnCategory(id, page);
-//        }
-
+        List<Object> products = productsService.getProductWithCollectionId(ImmutableMap.of("price", Arrays.asList(minPrice, maxPrice)), page, ImmutableMap.of("collectionId",
+                collectionId, "productCategoryId", id));
         if (products == null || products.isEmpty()) {
             throw new NoSuchObject();
         }

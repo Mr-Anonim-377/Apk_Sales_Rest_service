@@ -47,6 +47,11 @@ flyway {
     user = 'postgres'
     password = 'admin123456'
 }
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/sales'
+    user = 'postgres'
+    password = 'admin'
+}
 
 dependencies {
     /*
