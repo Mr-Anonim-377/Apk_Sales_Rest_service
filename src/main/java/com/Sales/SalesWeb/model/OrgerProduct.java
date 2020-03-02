@@ -7,19 +7,21 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "product_reviews")
+@Table(name = "orders_products")
 @Getter
 @Setter
-public class ProductReview {
+public class OrgerProduct {
 
     @Id
-    private UUID productReviewsId;
-
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "review_id")
-    private Review review;
+    private UUID orderProductId;
 
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     private Product product;
+
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    private Integer count;
 }

@@ -1,18 +1,14 @@
-package com.Sales.SalesWeb.model;
+package com.Sales.SalesWeb.controller.reqestPOJO;
 
 import com.Sales.SalesWeb.model.dbEnums.ReviewType;
 import lombok.Data;
 
-import javax.persistence.*;
 import java.util.UUID;
 
-@Entity
-@Table(name = "reviews")
 @Data
-public class Reviews {
+public class ProductReviewBody {
 
-    @Id
-    private UUID reviewId;
+    private UUID productId;
 
     private String reviewTitle;
 
@@ -21,7 +17,6 @@ public class Reviews {
     private Integer reviewMark;
 
     private String reviewDescription;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "review_type")
+
     private ReviewType reviewType;
 }

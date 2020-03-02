@@ -1,6 +1,6 @@
 package com.Sales.SalesWeb.model.POJO;
 
-import com.Sales.SalesWeb.model.FavoriteCategory;
+import com.Sales.SalesWeb.model.DTO.FavoriteCategoryDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -8,5 +8,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class FavoriteCategoryNav {
     String favoriteCategoryName;
-    FavoriteCategory favoriteCategory;
+    FavoriteCategoryDto favoriteCategory;
 }

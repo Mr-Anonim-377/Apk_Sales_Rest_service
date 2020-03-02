@@ -20,7 +20,7 @@ public class BanerService {
     public List<Baner> getAllBanersByStatus(Boolean status) {
         List<Baner> baners;
         try {
-            baners = banersRepository.findAllByBanerStatus(status);
+            baners = banersRepository.findAllByBanerUsesStatus(status);
         } catch (RuntimeException e) {
             throw new InternalDataBaseServerExeption();
         }
@@ -40,21 +40,21 @@ public class BanerService {
     public List<Baner> getAllBanersByPageByStatus(Page page, Boolean status) {
         List<Baner> allByPageAndBanerStatus;
         try {
-            allByPageAndBanerStatus = banersRepository.findAllByPageAndBanerStatus(page, status);
+            allByPageAndBanerStatus = banersRepository.findAllByPageAndBanerUsesStatus(page, status);
         } catch (RuntimeException e) {
             throw new InternalDataBaseServerExeption();
         }
         return allByPageAndBanerStatus;
     }
 
-    public Baner getBanerByStatus(Integer banerId, Boolean status) {
-        Baner byBanerIdAndBanerStatus;
+    public Baner getBanerId(Integer banerId) {
+        Baner byBanerId;
         try {
-            byBanerIdAndBanerStatus = banersRepository.findByBanerIdAndBanerStatus(banerId, status);
+            byBanerId = banersRepository.findByBanerId(banerId);
         } catch (RuntimeException e) {
             throw new InternalDataBaseServerExeption();
         }
-        return byBanerIdAndBanerStatus;
+        return byBanerId;
     }
 
 

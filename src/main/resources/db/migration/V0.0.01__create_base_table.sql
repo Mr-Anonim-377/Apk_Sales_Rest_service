@@ -40,7 +40,7 @@ create TABLE "orders"
     CONSTRAINT "order_pkey" PRIMARY KEY ("order_id")
 );
 
-create type order_delivery_status as ENUM ('successfully','canceled by user','canceled by sales','not delivered');
+create type order_delivery_status as ENUM ('successfully','canceled_by_user','canceled_by_sales','not_delivered');
 
 create TABLE "orders_delivery"
 (
@@ -95,7 +95,6 @@ create TABLE "products"
     "product_id"          uuid           NOT NULL default gen_random_uuid(),
     "name_product"        text           NOT NULL,
     "product_category_id" int4           NOT NULL,
---    numeric(14, 2)
     "price"               numeric(14, 2) NOT NULL,
     "image_id"            uuid           NOT NULL,
 --TODO нужно создать отдельную таблицу коллекции-продукты и выпелить collection_id

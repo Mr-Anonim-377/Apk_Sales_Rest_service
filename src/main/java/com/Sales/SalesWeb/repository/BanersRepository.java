@@ -13,10 +13,10 @@ public interface BanersRepository extends JpaRepository<Baner, UUID> {
 
     List<Baner> findAll();
 
-    List<Baner> findAllByBanerStatus(Boolean banerStatus);
+    List<Baner> findAllByBanerUsesStatus(Boolean banerStatus);
 
-    Baner findByBanerIdAndBanerStatus(Integer banerId, Boolean banerStatus);
+    Baner findByBanerId(Integer banerId);
 
-    List<Baner> findAllByPageAndBanerStatus(Page page, Boolean banerStatus);
+    List<Baner> findAllByPageAndBanerUsesStatus(Page page, Boolean banerStatus);
 
 }

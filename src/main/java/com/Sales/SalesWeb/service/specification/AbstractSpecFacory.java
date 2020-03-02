@@ -1,4 +1,4 @@
-package com.Sales.SalesWeb.service.Specification;
+package com.Sales.SalesWeb.service.specification;
 
 import org.springframework.data.jpa.domain.Specification;
 

@@ -8,7 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import static com.Sales.SalesWeb.controller.ControllerConfig.PAGE_SIZE;
+import static com.Sales.SalesWeb.config.ControllerConfig.PAGE_SIZE;
 
 @Service
 public class SearchService {

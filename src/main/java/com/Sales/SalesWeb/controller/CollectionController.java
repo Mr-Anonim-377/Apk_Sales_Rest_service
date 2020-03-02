@@ -2,7 +2,8 @@ package com.Sales.SalesWeb.controller;
 
 import com.Sales.SalesWeb.controller.exception.InternalDataBaseServerExeption;
 import com.Sales.SalesWeb.controller.exception.NoSuchObject;
-import com.Sales.SalesWeb.model.Collection;
+import com.Sales.SalesWeb.controller.exception.NoSuchObjects;
+import com.Sales.SalesWeb.model.DTO.CollectionDto;
 import com.Sales.SalesWeb.service.CollectionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,7 +26,7 @@ public class CollectionController {
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getCollection(@PathVariable Integer id) {
-        Collection collection = collectionService.getCollect(id);
+        CollectionDto collection = collectionService.getCollect(id);
         if (collection == null) {
             throw new NoSuchObject();
         }
@@ -34,11 +35,13 @@ public class CollectionController {
 
     @GetMapping(value = "all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getAllCollection() {
-        List<Collection> collections;
+        List<CollectionDto> collections;
         try {
             collections = collectionService.getAllCollect();
+            if (collections.isEmpty()) {
+                throw new NoSuchObjects();
+            }
         } catch (RuntimeException e) {
-            e.printStackTrace();
             throw new InternalDataBaseServerExeption();
         }
         return new ResponseEntity<>(collections, HttpStatus.OK);

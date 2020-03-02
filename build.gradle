@@ -42,11 +42,11 @@ bootJar {
 //        attributes 'Start-Class': 'com.Sales.SalesWeb.SalesWebApplication'
 //    }
 }
-flyway {
-    url = 'jdbc:postgresql://ec2-13-58-76-77.us-east-2.compute.amazonaws.com:5432/sales'
-    user = 'postgres'
-    password = 'admin123456'
-}
+//flyway {
+//    url = 'jdbc:postgresql://ec2-13-58-76-77.us-east-2.compute.amazonaws.com:5432/sales'
+//    user = 'postgres'
+//    password = 'admin123456'
+//}
 flyway {
     url = 'jdbc:postgresql://localhost:5432/sales'
     user = 'postgres'
@@ -84,7 +84,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
     implementation 'org.springframework.session:spring-session-core'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'org.postgresql:postgresql'
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.8'
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'

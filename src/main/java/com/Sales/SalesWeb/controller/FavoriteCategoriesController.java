@@ -1,6 +1,7 @@
 package com.Sales.SalesWeb.controller;
 
 import com.Sales.SalesWeb.controller.exception.NoSuchObject;
+import com.Sales.SalesWeb.model.DTO.FavoriteCategoryDto;
 import com.Sales.SalesWeb.model.FavoriteCategory;
 import com.Sales.SalesWeb.service.FavoriteCategoriesService;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class FavoriteCategoriesController {
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getfavoriteCategoriy(@PathVariable UUID id) {
-        FavoriteCategory favoriteCategory = favoriteCategoriesService.getfavoriteCategory(id);
+        FavoriteCategoryDto favoriteCategory = favoriteCategoriesService.getfavoriteCategory(id);
         if (favoriteCategory == null) {
             throw new NoSuchObject();
         }
@@ -34,7 +35,7 @@ public class FavoriteCategoriesController {
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getAllFavoriteCategories() {
-        List<FavoriteCategory> favoriteCategories = favoriteCategoriesService.getAllFavoriteCategories();
+        List<FavoriteCategoryDto> favoriteCategories = favoriteCategoriesService.getAllFavoriteCategories();
         if (favoriteCategories == null) {
             throw new NoSuchObject();
         }

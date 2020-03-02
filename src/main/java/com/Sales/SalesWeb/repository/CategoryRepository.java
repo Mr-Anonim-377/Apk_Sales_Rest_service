@@ -12,7 +12,7 @@ public interface CategoryRepository extends JpaRepository<Category, UUID> {
 
     Category findByCategoryId(Integer categoryId);
 
-    List<Category> findAllByParentCategoryIdIsNull();
+    List<Category> findAllByChildCategoryIsNull();
 
-    List<Category> findAllByParentCategoryId(Integer parentId);
+    List<Category> findAllByParentCategory_CategoryId(Integer parentId);
 }

@@ -10,5 +10,5 @@ import java.util.UUID;
 @Repository
 public interface FavoriteCategoryProductsRepository extends JpaRepository<FavoriteCategoryProduct, UUID> {
 
-    List<FavoriteCategoryProduct> findByFavoriteCategoryId(UUID favoriteCategoryId);
+    List<FavoriteCategoryProduct> findByFavoriteCategory_FavoriteCategoryId(UUID favoriteCategoryId);
 }

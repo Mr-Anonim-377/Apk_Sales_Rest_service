@@ -1,26 +1,29 @@
 package com.Sales.SalesWeb.model;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity()
-@Table(name = "favorite_category_products")
+@Table(name = "products_delivery")
 @Getter
 @Setter
-public class FavoriteCategoryProduct {
+public class ProductDelivery {
 
     @Id
-    private UUID favoriteCategoryProductId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID productDeliveryId;
+
+    private BigDecimal saleDelivery;
 
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
-    private Product Product;
+    private Product product;
 
     @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "favorite_category_id")
-    private FavoriteCategory favoriteCategory;
+    @JoinColumn(name = "delivery_id")
+    private Delivery delivery;
 }

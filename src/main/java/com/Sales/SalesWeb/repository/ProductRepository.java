@@ -14,9 +14,9 @@ import java.util.UUID;
 @Repository
 public interface ProductRepository extends CrudRepository<Product, UUID>, JpaSpecificationExecutor<Object> {
 
-    Page<Product> findAllByProductCategoryId(Integer productCategoryId, Pageable pageable);
+    Page<Product> findAllByCategory_CategoryId(Integer productCategoryId, Pageable pageable);
 
-    Page<Product> findAllByProductCategoryIdAndPriceAfterAndPriceBefore(Integer productCategoryId, BigDecimal min, BigDecimal max, Pageable pageable);
+    Page<Product> findAllByCategory_CategoryIdAndPriceAfterAndPriceBefore(Integer productCategoryId, BigDecimal min, BigDecimal max, Pageable pageable);
 
 
     Product findByProductId(UUID productId);

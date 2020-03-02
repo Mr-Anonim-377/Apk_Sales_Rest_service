@@ -1,22 +1,18 @@
 package com.Sales.SalesWeb.model.POJO;
 
-import com.Sales.SalesWeb.model.Product;
+import com.Sales.SalesWeb.model.DTO.FavoriteCategoryDto;
+import com.Sales.SalesWeb.model.DTO.ProductDto;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
 public class FavoriteCategoryProductsResponse {
-    private String favoriteCategory;
-    private Integer popularValue;
-    private List<Product> products;
-
-    public FavoriteCategoryProductsResponse() {
-    }
-
-    public FavoriteCategoryProductsResponse(String favoriteCategory, Integer popularValue, List<Product> products) {
+    private FavoriteCategoryDto favoriteCategory;
+    private List<ProductDto> products;
+    
+    public FavoriteCategoryProductsResponse(FavoriteCategoryDto favoriteCategory, List<ProductDto> products) {
         this.favoriteCategory = favoriteCategory;
-        this.popularValue = popularValue;
         this.products = products;
     }
 }

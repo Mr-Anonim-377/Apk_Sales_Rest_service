@@ -1,6 +1,8 @@
 package com.Sales.SalesWeb.service;
 
 import com.Sales.SalesWeb.controller.exception.InternalDataBaseServerExeption;
+import com.Sales.SalesWeb.controller.exception.NoSuchObjects;
+import com.Sales.SalesWeb.model.DTO.ProductDto;
 import com.Sales.SalesWeb.model.FavoriteCategory;
 import com.Sales.SalesWeb.model.FavoriteCategoryProduct;
 import com.Sales.SalesWeb.model.POJO.FavoriteCategoryProductsResponse;
@@ -9,8 +11,9 @@ import com.Sales.SalesWeb.repository.CategoryRepository;
 import com.Sales.SalesWeb.repository.FavoriteCategoryProductsRepository;
 import com.Sales.SalesWeb.repository.FavoriteCategoryRepository;
 import com.Sales.SalesWeb.repository.ProductRepository;
-import com.Sales.SalesWeb.service.Specification.AbstractSpecFacory;
+import com.Sales.SalesWeb.service.specification.AbstractSpecFacory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,8 +24,16 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static com.Sales.SalesWeb.service.utils.Mapper.toFavoriteCategoryDto;
+import static com.Sales.SalesWeb.service.utils.Mapper.toProductDto;
+import static com.Sales.SalesWeb.service.utils.SqlAssert.isEmpty;
+import static com.Sales.SalesWeb.service.utils.SqlAssert.listAssert;
 
 @Service
 public class ProductsService {
@@ -65,25 +76,25 @@ public class ProductsService {
     }
 
 
-    public Product getProduct(UUID id) {
-        Product product;
+    public ProductDto getProduct(UUID id) {
+        ProductDto productDto;
         try {
-            product = productRepository.findByProductId(id);
+            Product product = productRepository.findByProductId(id);
+            productDto = product == null ? null : toProductDto(product);
 
         } catch (RuntimeException e) {
             throw new InternalDataBaseServerExeption();
         }
-        return product;
+        return productDto;
     }
 
-    public Product createProduct(Product product) {
+    public boolean createProduct(Product product) {
         try {
-            product = productRepository.save(product);
+            productRepository.save(product);
         } catch (RuntimeException e) {
             throw new InternalDataBaseServerExeption();
         }
-        return product;
-
+        return productRepository.findById(product.getProductId()).isPresent();
     }
 
     public boolean deleteProduct(Product product) {
@@ -95,12 +106,12 @@ public class ProductsService {
         return productRepository.findById(product.getProductId()).isPresent();
     }
 
-    public Map<String, Product> updateProduct(Product productFromDb, Product productFromReqest) {
-        Map<String, Product> responseMap = new HashMap<>();
+    public Map<String, ProductDto> updateProduct(Product productFromDb, Product productFromReqest) {
+        Map<String, ProductDto> responseMap = new HashMap<>();
         try {
             BeanUtils.copyProperties(productFromDb, productFromReqest, "productId");
-            responseMap.put("updatedProduct", productFromReqest);
-            responseMap.put("currentProduct", productFromDb);
+            responseMap.put("updatedProduct", toProductDto(productFromReqest));
+            responseMap.put("currentProduct", toProductDto(productFromDb));
 
         } catch (RuntimeException e) {
             throw new InternalDataBaseServerExeption();
@@ -108,27 +119,27 @@ public class ProductsService {
         return responseMap;
     }
 
-    private List<Product> getFavoriteProductList(List<FavoriteCategoryProduct> favoriteCategoryProductList) {
-        List<Product> productList = new ArrayList<>();
-        for (FavoriteCategoryProduct favoriteCategoryProduct : favoriteCategoryProductList) {
-            productList.add(productRepository.findByProductId(favoriteCategoryProduct.getProductId()));
-        }
-        return productList;
+    private List<ProductDto> getFavoriteProductList(List<FavoriteCategoryProduct> favoriteCategoryProductList) {
+        listAssert(favoriteCategoryProductList,isEmpty());
+        return favoriteCategoryProductList.stream()
+                .map(i -> toProductDto(i.getProduct())).collect(Collectors.toList());
     }
 
     public List<FavoriteCategoryProductsResponse> getFavoriteCategoriesFavoriteProdcuts(Integer count) {
-        List<FavoriteCategoryProductsResponse> responses;
+        List<FavoriteCategoryProductsResponse> responses = null;
         try {
-            List<FavoriteCategory> favoriteCategories = favoriteCategoriesRepository
-                    .findAll(PageRequest.of(0, count, Sort.by("popularValue").descending())).getContent();
-
-            responses = favoriteCategories.stream()
-                    .map(i -> new FavoriteCategoryProductsResponse(
-                            categoryRepository.findByCategoryId(i.getCategoryId()).getCategoryName(),
-                            i.getPopularValue(),
-                            getFavoriteProductList(favoriteCategoryProductsRepository
-                                    .findByFavoriteCategoryId(i.getFavoriteCategoryId()))))
+            Page<FavoriteCategory> pageFavoriteCategories = favoriteCategoriesRepository
+                    .findAll(PageRequest.of(0, count, Sort.by("popularValue").descending()));
+            if (pageFavoriteCategories.isEmpty()) {
+                throw new NoSuchObjects();
+            }
+            List<FavoriteCategory> favoriteCategories = pageFavoriteCategories.getContent();
+            responses = favoriteCategories.stream().map(i -> new FavoriteCategoryProductsResponse(
+                    toFavoriteCategoryDto(i),
+                    getFavoriteProductList(favoriteCategoryProductsRepository
+                            .findByFavoriteCategory_FavoriteCategoryId(i.getFavoriteCategoryId()))))
                     .collect(Collectors.toList());
+
         } catch (RuntimeException e) {
             throw new InternalDataBaseServerExeption();
         }

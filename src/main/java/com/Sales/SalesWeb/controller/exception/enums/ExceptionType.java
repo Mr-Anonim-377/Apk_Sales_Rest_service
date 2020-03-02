@@ -9,5 +9,6 @@ public enum ExceptionType {
     BadParamForRequest,
     SaveInDbException,
     DeleteInDbException,
-    UpdateInDbException
+    UpdateInDbException,
+    QueryException
 }

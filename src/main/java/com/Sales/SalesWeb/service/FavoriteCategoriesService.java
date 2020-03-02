@@ -1,8 +1,10 @@
 package com.Sales.SalesWeb.service;
 
 import com.Sales.SalesWeb.controller.exception.InternalDataBaseServerExeption;
+import com.Sales.SalesWeb.model.DTO.FavoriteCategoryDto;
 import com.Sales.SalesWeb.model.FavoriteCategory;
 import com.Sales.SalesWeb.repository.FavoriteCategoryRepository;
+import com.Sales.SalesWeb.service.utils.Mapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -10,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
+import static com.Sales.SalesWeb.service.utils.Mapper.toFavoriteCategoryDto;
 
 @Service
 public class FavoriteCategoriesService {
@@ -19,35 +24,40 @@ public class FavoriteCategoriesService {
         this.favoriteCategoriesRepository = favoriteCategoriesRepository;
     }
 
-    public FavoriteCategory getfavoriteCategory(UUID id) {
-        FavoriteCategory favoriteCategory;
+    public FavoriteCategoryDto getfavoriteCategory(UUID id) {
+        FavoriteCategoryDto favoriteCategoryDto;
         try {
-            favoriteCategory = favoriteCategoriesRepository.findByFavoriteCategoryId(id);
+            FavoriteCategory favoriteCategory = favoriteCategoriesRepository.findByFavoriteCategoryId(id);
+            favoriteCategoryDto = favoriteCategory==null?null:toFavoriteCategoryDto(favoriteCategory);;
         } catch (RuntimeException e) {
             throw new InternalDataBaseServerExeption();
         }
-        return favoriteCategory;
+        return favoriteCategoryDto;
     }
 
-    public List<FavoriteCategory> getAllFavoriteCategories() {
-        List<FavoriteCategory> favoriteCategories;
+    public List<FavoriteCategoryDto> getAllFavoriteCategories() {
+        List<FavoriteCategoryDto> favoriteCategories;
         try {
-            favoriteCategories = favoriteCategoriesRepository.findAll(Sort.by("popularValue").descending());
+            favoriteCategories = favoriteCategoriesRepository.findAll(Sort.by("popularValue").descending()).stream()
+                    .map(Mapper::toFavoriteCategoryDto)
+                    .collect(Collectors.toList());
         } catch (RuntimeException e) {
             throw new InternalDataBaseServerExeption();
         }
         return favoriteCategories;
     }
 
-    public List<FavoriteCategory> getCountFavoriteCategories(Integer count) {
-        Page<FavoriteCategory> favoriteCategories;
+    public List<FavoriteCategoryDto> getCountFavoriteCategories(Integer count) {
+        List<FavoriteCategoryDto> favoriteCategories;
         try {
             favoriteCategories = favoriteCategoriesRepository.findAll(PageRequest
-                    .of(0, count, Sort.by("popularValue").descending()));
+                    .of(0, count, Sort.by("popularValue").descending())).stream()
+                    .map(Mapper::toFavoriteCategoryDto)
+                    .collect(Collectors.toList());
         } catch (RuntimeException e) {
             throw new InternalDataBaseServerExeption();
         }
-        return favoriteCategories.getContent();
+        return favoriteCategories;
     }
 
 }

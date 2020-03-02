@@ -15,10 +15,14 @@ public class ShoppingCartService {
 
     public void addProduct(Product product, ShoppingCart shoppingCart, Integer numberPieces) {
         try {
-            Map<String, ShoppingProduct> products = shoppingCart.getProducts();
-            products.put(product.getProductId().toString(), new ShoppingProduct(product, numberPieces));
-            shoppingCart.setProducts(products);
-            validation(shoppingCart);
+            if(shoppingCart.getProducts().containsKey(product.getProductId().toString())){
+                addProductPieces(product,shoppingCart,1);
+            }else{
+                Map<String, ShoppingProduct> products = shoppingCart.getProducts();
+                products.put(product.getProductId().toString(), new ShoppingProduct(product, numberPieces));
+                shoppingCart.setProducts(products);
+                validation(shoppingCart);
+            }
         } catch (RuntimeException e) {
             throw new InternalDataBaseServerExeption();
         }

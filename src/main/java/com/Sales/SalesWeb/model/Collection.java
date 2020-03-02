@@ -1,13 +1,17 @@
 package com.Sales.SalesWeb.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity()
 @Table(name = "collections")
-@Data
+@Getter
+@Setter
 public class Collection {
 
     @Id
@@ -21,4 +25,6 @@ public class Collection {
     @JoinColumn (name="image_id")
     private Image image;
 
+    @OneToMany(mappedBy = "collection", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Product> collectionProducts;
 }

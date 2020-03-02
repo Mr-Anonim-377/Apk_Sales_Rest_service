@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "baners", produces = MediaType.APPLICATION_JSON_VALUE)
 public class BanerController {
-
     private final BanerService banerService;
 
     public BanerController(BanerService banerService) {
@@ -45,9 +44,8 @@ public class BanerController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Baner> getBanerByStatus(@PathVariable Integer id,
-                                                  @RequestParam Boolean status) {
-        Baner banerByStatus = banerService.getBanerByStatus(id, status);
+    public ResponseEntity<Baner> getBanerByStatus(@PathVariable Integer id) {
+        Baner banerByStatus = banerService.getBanerId(id);
         if (banerByStatus == null) {
             throw new ApiException("No search baners in db by current status :(",
                     "baners.isEmpty()",
@@ -67,8 +65,6 @@ public class BanerController {
         }
         return new ResponseEntity<>(banersByPageByStatus, HttpStatus.OK);
     }
-
-
 }
 
 

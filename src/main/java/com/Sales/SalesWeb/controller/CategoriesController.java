@@ -21,7 +21,7 @@ public class CategoriesController {
     }
 
 
-    @GetMapping(value = "/Navigation", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getAllNavigationCategories() {
         Navigation navigationCategories = categoriesService.getAllNavigationCategories();
         if (navigationCategories == null) {
