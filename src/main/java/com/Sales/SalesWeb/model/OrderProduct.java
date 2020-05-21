@@ -10,7 +10,7 @@ import java.util.UUID;
 @Table(name = "orders_products")
 @Getter
 @Setter
-public class OrgerProduct {
+public class OrderProduct {
 
     @Id
     private UUID orderProductId;
@@ -19,7 +19,7 @@ public class OrgerProduct {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "order_id")
     private Order order;
 

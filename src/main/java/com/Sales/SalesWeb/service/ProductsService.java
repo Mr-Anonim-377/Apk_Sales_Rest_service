@@ -1,7 +1,11 @@
 package com.Sales.SalesWeb.service;
 
+import com.Sales.SalesWeb.controller.exception.ApiException;
 import com.Sales.SalesWeb.controller.exception.InternalDataBaseServerExeption;
 import com.Sales.SalesWeb.controller.exception.NoSuchObjects;
+import com.Sales.SalesWeb.controller.exception.enums.ExceptionType;
+import com.Sales.SalesWeb.controller.requestDto.ProductResuest.ProductRequest;
+import com.Sales.SalesWeb.controller.requestDto.ProductResuest.ProductsResponse;
 import com.Sales.SalesWeb.model.DTO.ProductDto;
 import com.Sales.SalesWeb.model.FavoriteCategory;
 import com.Sales.SalesWeb.model.FavoriteCategoryProduct;
@@ -11,7 +15,8 @@ import com.Sales.SalesWeb.repository.CategoryRepository;
 import com.Sales.SalesWeb.repository.FavoriteCategoryProductsRepository;
 import com.Sales.SalesWeb.repository.FavoriteCategoryRepository;
 import com.Sales.SalesWeb.repository.ProductRepository;
-import com.Sales.SalesWeb.service.specification.AbstractSpecFacory;
+import com.Sales.SalesWeb.service.specification.ProductSpecFactory;
+import com.Sales.SalesWeb.service.utils.Mapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,9 +25,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +32,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.Sales.SalesWeb.config.ControllerConfig.PAGE_SIZE;
 import static com.Sales.SalesWeb.service.utils.Mapper.toFavoriteCategoryDto;
 import static com.Sales.SalesWeb.service.utils.Mapper.toProductDto;
 import static com.Sales.SalesWeb.service.utils.SqlAssert.isEmpty;
@@ -53,28 +56,24 @@ public class ProductsService {
 
     }
 
-    public List<Object> getProductWithCollectionId(Map<String, List<BigDecimal>> betwenArg, int page, Map<String, Object> map) {
-        AbstractSpecFacory abstractSpecFacory = new AbstractSpecFacory() {
-            @Override
-            protected <T> Predicate createBetwenPredicate(CriteriaBuilder criteriaBuilder, Root<Object> root,
-                                                          List<T> betwenArg, String alias) {
-                List<BigDecimal> currentArg = betwenArg.stream().map(element -> (BigDecimal) element)
-                        .collect(Collectors.toList());
-                return criteriaBuilder.between(root.get(alias), currentArg.get(0), currentArg.get(1));
-            }
-        };
-        Pageable pageable = PageRequest.of(page, 4);
-        Specification<Object> specification = abstractSpecFacory.getSpecification(betwenArg, map);
-        List<Object> product;
+    public ProductsResponse getProductWithProductRequest(int page, ProductRequest body) {
+        ProductSpecFactory<Product> productSpecFactory = new ProductSpecFactory();
+        Pageable pageable = body.createSort() == null ? PageRequest.of(page, PAGE_SIZE)
+                : PageRequest.of(page, PAGE_SIZE, body.createSort());
+        Specification<Product> specification = productSpecFactory
+                .getOrAndEqualsBetweenSpecification(body.toMapBetween(),
+                        body.toAndsPredicateMap(), body.toOrsPredicateMap());
+        List<ProductDto> productsContent;
+        Page<Product> productsPage;
         try {
-            product = productRepository.findAll(specification, pageable).getContent();
-
+            productsPage = productRepository.findAll(specification, pageable);
+            productsContent = productsPage.getContent()
+                    .stream().map(Mapper::toProductDto).collect(Collectors.toList());
         } catch (RuntimeException e) {
             throw new InternalDataBaseServerExeption();
         }
-        return product;
+        return new ProductsResponse(productsContent,productsPage.getTotalPages());
     }
-
 
     public ProductDto getProduct(UUID id) {
         ProductDto productDto;
@@ -120,7 +119,7 @@ public class ProductsService {
     }
 
     private List<ProductDto> getFavoriteProductList(List<FavoriteCategoryProduct> favoriteCategoryProductList) {
-        listAssert(favoriteCategoryProductList,isEmpty());
+        listAssert(favoriteCategoryProductList, isEmpty());
         return favoriteCategoryProductList.stream()
                 .map(i -> toProductDto(i.getProduct())).collect(Collectors.toList());
     }

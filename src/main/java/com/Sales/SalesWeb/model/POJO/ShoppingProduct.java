@@ -1,5 +1,6 @@
 package com.Sales.SalesWeb.model.POJO;
 
+import com.Sales.SalesWeb.model.DTO.ProductDto;
 import com.Sales.SalesWeb.model.Product;
 import lombok.Data;
 import lombok.Getter;
@@ -11,11 +12,11 @@ import java.math.BigDecimal;
 @Setter
 public class ShoppingProduct {
     String productName;
-    Product product;
+    ProductDto product;
     Integer numberPieces;
     BigDecimal priceNumberPieces;
 
-    public ShoppingProduct(Product product, Integer numberPieces) {
+    public ShoppingProduct(ProductDto product, Integer numberPieces) {
         this.product = product;
         this.productName = product.getNameProduct();
         this.numberPieces = numberPieces;
@@ -27,7 +28,7 @@ public class ShoppingProduct {
         this.priceNumberPieces = BigDecimal.valueOf(product.getPrice().doubleValue() * this.numberPieces);
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(ProductDto product) {
         this.product = product;
         this.productName = product.getNameProduct();
         this.priceNumberPieces = BigDecimal.valueOf(this.product.getPrice().doubleValue() * this.numberPieces);

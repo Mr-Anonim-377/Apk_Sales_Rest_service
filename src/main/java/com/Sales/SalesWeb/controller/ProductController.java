@@ -4,6 +4,9 @@ package com.Sales.SalesWeb.controller;
 import com.Sales.SalesWeb.controller.exception.ApiException;
 import com.Sales.SalesWeb.controller.exception.NoSuchObject;
 import com.Sales.SalesWeb.controller.exception.enums.ExceptionType;
+import com.Sales.SalesWeb.controller.requestDto.ProductResuest.ProductCategoryReqest;
+import com.Sales.SalesWeb.controller.requestDto.ProductResuest.ProductCollectionRequest;
+import com.Sales.SalesWeb.controller.requestDto.ProductResuest.ProductsResponse;
 import com.Sales.SalesWeb.model.DTO.ProductDto;
 import com.Sales.SalesWeb.model.POJO.FavoriteCategoryProductsResponse;
 import com.Sales.SalesWeb.model.Product;
@@ -13,8 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import static com.Sales.SalesWeb.service.utils.SqlAssert.isEmpty;
 import static com.Sales.SalesWeb.service.utils.SqlAssert.listAssert;
@@ -28,25 +32,20 @@ public class ProductController {
         this.productsService = productsService;
     }
 
-    @GetMapping(value = "/category", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getProductsOnCategpry(@RequestParam Integer id,
-                                                @RequestParam(required = false) BigDecimal minPrice,
-                                                @RequestParam(required = false) BigDecimal maxPrice,
-                                                @RequestParam(required = false) Integer collectionId,
-                                                @RequestParam int page) {
-        Map<String, List<BigDecimal>> between = new HashMap<>();
-        if (minPrice != null || maxPrice != null) {
-            between.put("price", Arrays.asList(minPrice, maxPrice));
+    @PostMapping(value = "/category", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getProductsOnCategory(@RequestBody ProductCategoryReqest body) {
+        ProductsResponse products = productsService.getProductWithProductRequest(body.getPage(), body);
+        if (products == null || products.getProducts().isEmpty()) {
+            throw new NoSuchObject();
         }
-        Map<String, Object> equals = new HashMap<>();
-        if (collectionId != null) {
-            equals.put("collectionId",
-                    collectionId);
-        }
-        equals.put("productCategoryId", id);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 
-        List<Object> products = productsService.getProductWithCollectionId(between, page, equals);
-        if (products == null || products.isEmpty()) {
+
+    @PostMapping(value = "/collection", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getProductsOnCollection(@RequestBody ProductCollectionRequest body) {
+        ProductsResponse products = productsService.getProductWithProductRequest(body.getPage(), body);
+        if (products == null || products.getProducts().isEmpty()) {
             throw new NoSuchObject();
         }
         return new ResponseEntity<>(products, HttpStatus.OK);

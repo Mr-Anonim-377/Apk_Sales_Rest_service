@@ -1,9 +1,11 @@
 package com.Sales.SalesWeb.model;
 
+import com.Sales.SalesWeb.model.dataType.PgEnumUserType;
 import com.Sales.SalesWeb.model.dbEnums.OrderStatus;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -13,12 +15,13 @@ import java.util.UUID;
 @Table(name = "orders_delivery")
 @Getter
 @Setter
-public class OrgerDelivery {
+public class OrderDelivery {
 
     @Id
     private UUID orderDeliveryId;
 
-    @Enumerated(EnumType.STRING)
+    @Type(type = PgEnumUserType.TYPE,parameters = @org.hibernate.annotations.Parameter(
+            name=PgEnumUserType.ENUM_CLASS_NAME,value = "com.Sales.SalesWeb.model.dbEnums.OrderStatus"))
     @Column(name = "order_delivery_status")
     private OrderStatus orderDeliveryStatus;
 

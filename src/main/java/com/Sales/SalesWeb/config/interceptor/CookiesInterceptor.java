@@ -12,7 +12,7 @@ public class CookiesInterceptor extends HandlerInterceptorAdapter {
             HttpServletRequest request,
             HttpServletResponse response,
             Object handler) {
-        request.getSession();
+        request.getSession().setMaxInactiveInterval((60*60)*7);
         return true;
     }
 }

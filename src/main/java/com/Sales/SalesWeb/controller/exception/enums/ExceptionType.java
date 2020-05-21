@@ -1,7 +1,12 @@
 package com.Sales.SalesWeb.controller.exception.enums;
 
 public enum ExceptionType {
+    UserAlreadyLogged,
     WrongSearchString,
+    PasswordNotValidate,
+    ErrorSecureCod,
+    DbHaveRegisteredUser,
+    LoginNotValidate,
     NoSuchObj,
     NoSuchObjs,
     ArgumentTypeMismatch,
@@ -10,5 +15,10 @@ public enum ExceptionType {
     SaveInDbException,
     DeleteInDbException,
     UpdateInDbException,
-    QueryException
+    QueryException,
+    ArgumentValueMismatch,
+    MatchError,
+    UploadFileIsEmpty,
+    ParseError,
+    CreatingFIleError
 }

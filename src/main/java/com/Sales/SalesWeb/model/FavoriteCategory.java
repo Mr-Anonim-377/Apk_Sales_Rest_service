@@ -14,12 +14,13 @@ import java.util.UUID;
 public class FavoriteCategory {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID favoriteCategoryId;
 
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private Category category;
-//    private Integer categoryId;
+//    private Integer categoryIds;
 
     private Integer popularValue;
 

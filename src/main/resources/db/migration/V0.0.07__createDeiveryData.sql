@@ -1,0 +1,3 @@
+INSERT INTO public.delivery (delivery_id, delivery_area, price_delivery) VALUES ('a8b81fcd-a7ad-4973-ae7a-255a65ee71c9', 'Москва', 250.00);
+INSERT INTO public.delivery (delivery_id, delivery_area, price_delivery) VALUES ('0c35ee59-7a70-43a9-b4fd-f0331c946af9', 'Москва', 99.00);
+INSERT INTO public.delivery (delivery_id, delivery_area, price_delivery) VALUES ('baa8587b-7859-4b9a-948f-25906513c343', 'Москва', 149.00);

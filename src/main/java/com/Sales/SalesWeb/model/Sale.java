@@ -15,6 +15,7 @@ import java.util.UUID;
 public class Sale {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer saleId;
 
     private String saleName;

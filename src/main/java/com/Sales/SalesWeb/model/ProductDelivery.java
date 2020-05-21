@@ -14,7 +14,7 @@ import java.util.UUID;
 public class ProductDelivery {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID productDeliveryId;
 
     private BigDecimal saleDelivery;

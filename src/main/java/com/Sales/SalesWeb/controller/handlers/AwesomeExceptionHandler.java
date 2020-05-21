@@ -28,6 +28,13 @@ public class AwesomeExceptionHandler extends ResponseEntityExceptionHandler {
                 ExceptionType.NoSuchObj), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(UploadFileEmptyError.class)
+    protected ResponseEntity<ApiExceptionResponse> handleFileEmptyError(Exception exc) {
+        return new ResponseEntity<>(new ApiExceptionResponse(LocalDateTime.now().format(formatter),
+                "Unload's file is Empty", "FILE_EMPTY_ERROR", ExceptionType.UploadFileIsEmpty),
+                HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(ApiException.class)
     protected ResponseEntity<ApiExceptionResponse> handleApiExeption(ApiException exc) {
         return new ResponseEntity<>(new ApiExceptionResponse(
@@ -75,6 +82,14 @@ public class AwesomeExceptionHandler extends ResponseEntityExceptionHandler {
                 LocalDateTime.now().format(formatter),
                 "Shopping product not such", "shopProduct==null",
                 ExceptionType.NoSuchObj), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NoMatchersException.class)
+    protected ResponseEntity<ApiExceptionResponse> handleNoMatchersException(Exception exc) {
+        return new ResponseEntity<>(new ApiExceptionResponse(
+                LocalDateTime.now().format(formatter),
+                String.format("No match for Pattern: %s", exc.getMessage()), "Sort message not valid",
+                ExceptionType.MatchError), HttpStatus.CONFLICT);
     }
 
     @Data

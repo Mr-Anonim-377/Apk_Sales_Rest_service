@@ -26,6 +26,12 @@ public class ShoppingCartController {
         return new ResponseEntity<>(shoppingCart, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/clear")
+    public ResponseEntity<ShoppingCart> clearCart(ShoppingCart shoppingCart) {
+        shoppingCart.clear();
+        return new ResponseEntity<>(shoppingCart, HttpStatus.OK);
+    }
+
     @PostMapping(value = "/addProduct", params = {"productId"})
     public ResponseEntity addProduct(@RequestParam("productId") Product product,
                                      ShoppingCart shoppingCart) {

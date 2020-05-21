@@ -2,11 +2,13 @@ package com.Sales.SalesWeb.model.DTO;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.UUID;
 
 @Getter
 @Setter
+//@ToString
 public class FavoriteCategoryDto {
     private UUID favoriteCategoryId;
 

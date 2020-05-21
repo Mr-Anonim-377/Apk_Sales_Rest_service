@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,16 +16,17 @@ import java.util.UUID;
 public class Collection {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer collectionId;
 
     private String collectionName;
 
     private String collectionDescription;
 
-    @OneToOne(optional=false, cascade= CascadeType.ALL)
+    @OneToOne()
     @JoinColumn (name="image_id")
     private Image image;
 
-    @OneToMany(mappedBy = "collection", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Product> collectionProducts;
+    @OneToMany(mappedBy = "collection")
+    private List<Product> products = new ArrayList<>();
 }

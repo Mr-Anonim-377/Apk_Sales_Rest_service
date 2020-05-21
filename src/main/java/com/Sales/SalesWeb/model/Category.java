@@ -7,6 +7,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity()
@@ -16,20 +17,20 @@ import java.util.List;
 public class Category {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer categoryId;
 
     //    private Integer parentCategoryId;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "parent_category_id")
     private Category parentCategory;
 
-    @OneToMany(mappedBy = "parentCategory",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Category> childCategory;
+    @OneToMany(mappedBy = "parentCategory")
+    private List<Category> childCategory = new ArrayList<>();
 
     private String categoryName;
 
-    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Product> categoryProducts;
-
+    @OneToMany(mappedBy = "category")
+    private List<Product> categoryProducts = new ArrayList<>();
 }

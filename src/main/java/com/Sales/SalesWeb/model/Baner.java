@@ -16,6 +16,7 @@ import java.util.UUID;
 public class Baner {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer banerId;
 
     @OneToOne (optional=false, cascade=CascadeType.ALL)

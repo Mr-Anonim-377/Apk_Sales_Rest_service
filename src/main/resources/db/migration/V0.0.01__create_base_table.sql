@@ -6,13 +6,15 @@ create EXTENSION "pgcrypto";
 create type baner_location as ENUM ('MAIN_CENTRAL', 'MAIN_SMALL');
 create type page as ENUM ('MAIN','CATEGORIES');
 
+create table "yrerwetrw" ("test" int4 );
+
 create TABLE "baners"
 (
     "baner_id"      serial         NOT NULL,
-    "image_id"      uuid           NOT NULL,
+    "image_id"      uuid                         NOT NULL,
     "title"         text,
-    "page"          page          NOT NULL,
-    "page_location" baner_location NOT null,
+    "page"          page                         NOT NULL,
+    "page_location" baner_location               NOT NULL,
     "baner_uses_status"  boolean,
     CONSTRAINT "baners_pkey" PRIMARY KEY ("baner_id")
 );
@@ -36,7 +38,12 @@ create TABLE "orders"
     "payment_type"      payment_type,
     "order_delivery_id" uuid,
     "order_status"      order_status NOT NULL,
-    "user_id"           uuid         NOT NULL,
+    "user_id"           uuid,
+    "email"             text,
+    "cod"               text,
+    "phone"             text,
+    "first_name"         text,
+    "last_name"          text,
     CONSTRAINT "order_pkey" PRIMARY KEY ("order_id")
 );
 
@@ -94,9 +101,9 @@ create TABLE "products"
 (
     "product_id"          uuid           NOT NULL default gen_random_uuid(),
     "name_product"        text           NOT NULL,
-    "product_category_id" int4           NOT NULL,
+    "category_id" int4                   NOT NULL,
     "price"               numeric(14, 2) NOT NULL,
-    "image_id"            uuid           NOT NULL,
+    "image_id"            uuid           ,
 --TODO нужно создать отдельную таблицу коллекции-продукты и выпелить collection_id
     "collection_id"       int4,
     "properties"          text           NOT NULL,
@@ -115,7 +122,7 @@ create TABLE "products_delivery"
 
 create TABLE "collections"
 (
-    "collection_id"          serial NOT NULL,
+    "collection_id"          serial  NOT NULL,
     "collection_name"        text   NOT NULL,
     "collection_description" text,
     "image_id"               uuid,
@@ -124,7 +131,7 @@ create TABLE "collections"
 
 create TABLE "sales"
 (
-    "sale_id"   serial         NOT NULL,
+    "sale_id"   serial          NOT NULL,
     "sale_name" text           NOT NULL,
     "image_id"  uuid,
 --    numeric(14, 2)
@@ -169,7 +176,7 @@ create TABLE "delivery"
 
 create TABLE "categories"
 (
-    "category_id"        int4 NOT NULL,
+    "category_id"        serial NOT NULL,
     "parent_category_id" int4,
     "category_name"      text NOT NULL,
     CONSTRAINT "category_pkey" PRIMARY KEY ("category_id")
@@ -222,11 +229,11 @@ ALTER TABLE "product_reviews"
 ALTER TABLE "product_reviews"
     ADD CONSTRAINT "fk_productReviews_reviews" FOREIGN KEY ("review_id") REFERENCES "reviews" ("review_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "products"
-    ADD CONSTRAINT "fk_products_categories" FOREIGN KEY ("product_category_id") REFERENCES "categories" ("category_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ADD CONSTRAINT "fk_products_categories" FOREIGN KEY ("category_id") REFERENCES "categories" ("category_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "products"
     ADD CONSTRAINT "fk_products_collections" FOREIGN KEY ("collection_id") REFERENCES "collections" ("collection_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE "products"
-    ADD CONSTRAINT "fk_products_images" FOREIGN KEY ("image_id") REFERENCES "images" ("image_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+--ALTER TABLE "products"
+--    ADD CONSTRAINT "fk_products_images" FOREIGN KEY ("image_id") REFERENCES "images" ("image_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "products_delivery"
     ADD CONSTRAINT "fk_productsDelivery_delivery" FOREIGN KEY ("delivery_id") REFERENCES "delivery" ("delivery_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "products_delivery"

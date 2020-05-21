@@ -1,5 +1,13 @@
 package com.Sales.SalesWeb.model.dbEnums;
 
-public enum PaymentType {
-    cash,non_cash
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
+public enum PaymentType implements PgEnum {
+    cash("cash"),
+    non("non-cash");
+
+    private final String sqlValue;
 }

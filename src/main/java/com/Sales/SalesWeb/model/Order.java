@@ -1,11 +1,15 @@
 package com.Sales.SalesWeb.model;
 
+import com.Sales.SalesWeb.model.dataType.PgEnumUserType;
 import com.Sales.SalesWeb.model.dbEnums.OrderStatus;
 import com.Sales.SalesWeb.model.dbEnums.PaymentType;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -19,24 +23,35 @@ public class Order {
 
     private Boolean isPayment;
 
-    @Enumerated(EnumType.STRING)
+    @Type(type = PgEnumUserType.TYPE, parameters = @org.hibernate.annotations.Parameter(
+            name = PgEnumUserType.ENUM_CLASS_NAME, value = "com.Sales.SalesWeb.model.dbEnums.PaymentType"))
     @Column(name = "payment_type")
     private PaymentType paymentType;
 
+    @OneToMany(mappedBy = "order")
+    private List<OrderProduct> orderProducts = new ArrayList<>();
+
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "order_delivery_id")
-    private OrgerDelivery orderDelivery;
+    private OrderDelivery orderDelivery;
 
-//    private UUID orderDeliveryId;
-
-    @Enumerated(EnumType.STRING)
+    @Type(type = PgEnumUserType.TYPE, parameters = @org.hibernate.annotations.Parameter(
+            name = PgEnumUserType.ENUM_CLASS_NAME, value = "com.Sales.SalesWeb.model.dbEnums.OrderStatus"))
     @Column(name = "order_status")
     private OrderStatus orderStatus;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
-//    private UUID userId;
+    private String email;
+
+    private String cod;
+
+    private String phone;
+
+    private String firstName;
+
+    private String lastName;
 
 }

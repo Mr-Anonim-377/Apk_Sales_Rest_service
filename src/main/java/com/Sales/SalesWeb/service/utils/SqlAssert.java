@@ -11,13 +11,13 @@ public class SqlAssert {
         return i -> ((List<Object>) i).isEmpty();
     }
 
-    public static <T> void listAssert(List<T> list, Predicate predicate) {
+    public static void listAssert(List list, Predicate predicate) {
         if (predicate.test(list)) {
             throw new NoSuchObjects();
         }
     }
 
-    public static <T> void listAssert(List<T> list, Predicate predicate, RuntimeException e) {
+    public static void listAssert(List list, Predicate predicate, RuntimeException e) {
         if (predicate.test(list)) {
             throw e;
         }

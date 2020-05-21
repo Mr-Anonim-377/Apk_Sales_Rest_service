@@ -14,7 +14,7 @@ import java.util.UUID;
 public class OrderReview {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID orderReviewId;
 
     @OneToOne(optional = false, cascade = CascadeType.ALL)

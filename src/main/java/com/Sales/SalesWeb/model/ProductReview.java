@@ -15,11 +15,11 @@ public class ProductReview {
     @Id
     private UUID productReviewsId;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "review_id")
     private Review review;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "product_id")
     private Product product;
 }

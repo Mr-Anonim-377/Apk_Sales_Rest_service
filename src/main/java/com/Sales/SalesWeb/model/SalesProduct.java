@@ -14,6 +14,7 @@ import java.util.UUID;
 public class SalesProduct {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID saleProductId;
 
     @OneToOne(optional = false, cascade = CascadeType.ALL)

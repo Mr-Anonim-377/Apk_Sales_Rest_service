@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,10 +19,10 @@ public class CollectionDto {
 
     private Image image;
 
-    private List<ProductDto> collectionProducts;
+    private List<UUID> collectionProducts;
 
     public CollectionDto(Integer collectionId, String collectionName, String collectionDescription, Image image,
-                         List<ProductDto> collectionProducts) {
+                         List<UUID> collectionProducts) {
         this.collectionId = collectionId;
         this.collectionName = collectionName;
         this.collectionDescription = collectionDescription;

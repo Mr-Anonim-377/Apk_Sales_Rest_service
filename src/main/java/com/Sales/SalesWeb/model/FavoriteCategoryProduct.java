@@ -14,6 +14,7 @@ import java.util.UUID;
 public class FavoriteCategoryProduct {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID favoriteCategoryProductId;
 
     @OneToOne(optional = false, cascade = CascadeType.ALL)
