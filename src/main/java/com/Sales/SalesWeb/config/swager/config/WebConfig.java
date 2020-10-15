@@ -1,4 +1,4 @@
-package com.Sales.SalesWeb.config;
+package com.Sales.SalesWeb.config.swager.config;
 
 import com.Sales.SalesWeb.config.interceptor.CookiesInterceptor;
 import org.springframework.context.annotation.ComponentScan;

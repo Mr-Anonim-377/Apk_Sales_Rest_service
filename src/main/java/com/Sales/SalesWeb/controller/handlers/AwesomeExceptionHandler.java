@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 public class AwesomeExceptionHandler extends ResponseEntityExceptionHandler {
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-LL-yyyy/HH:mm:ss");
-
+    
     @ExceptionHandler(NoSuchObject.class)
     protected ResponseEntity<ApiExceptionResponse> handleNoSuchObject() {
         return new ResponseEntity<>(new ApiExceptionResponse(

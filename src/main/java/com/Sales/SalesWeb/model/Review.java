@@ -2,14 +2,11 @@ package com.Sales.SalesWeb.model;
 
 import com.Sales.SalesWeb.model.dataType.PgEnumUserType;
 import com.Sales.SalesWeb.model.dbEnums.ReviewType;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -31,8 +28,8 @@ public class Review {
 
     private String reviewDescription;
 
-    @Type(type = PgEnumUserType.TYPE,parameters = @org.hibernate.annotations.Parameter(
-            name=PgEnumUserType.ENUM_CLASS_NAME,value = "com.Sales.SalesWeb.model.dbEnums.ReviewType"))
+    @Type(type = PgEnumUserType.TYPE, parameters = @org.hibernate.annotations.Parameter(
+            name = PgEnumUserType.ENUM_CLASS_NAME, value = "com.Sales.SalesWeb.model.dbEnums.ReviewType"))
     @Column(name = "review_type")
     private ReviewType reviewType;
 }

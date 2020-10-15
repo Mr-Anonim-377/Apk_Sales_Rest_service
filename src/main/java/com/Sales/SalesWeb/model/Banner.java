@@ -13,7 +13,7 @@ import java.util.UUID;
 @Table(name = "baners")
 @Getter
 @Setter
-public class Baner {
+public class Banner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

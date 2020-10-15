@@ -1,4 +1,4 @@
-package com.Sales.SalesWeb.model.POJO;
+package com.Sales.SalesWeb.model.response.entity;
 
 import com.Sales.SalesWeb.model.Category;
 import lombok.Data;

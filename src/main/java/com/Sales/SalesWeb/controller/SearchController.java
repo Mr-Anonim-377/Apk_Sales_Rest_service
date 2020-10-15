@@ -12,26 +12,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "search", produces = MediaType.APPLICATION_JSON_VALUE)
-public class SearchController {
+@RequestMapping(value = "search/", produces = MediaType.APPLICATION_JSON_VALUE)
+public class SearchController extends AbstractController {
     private final SearchService searchService;
 
     public SearchController(SearchService searchService) {
         this.searchService = searchService;
     }
 
-
-    @PostMapping(value = "/onProducts", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity searchOnProduct(@RequestBody SearchResultRequest request) {
-        if (request.getSearchString().length() <= 3) {
-            throw new ApiException("The search string is less than or equal to 3  -_-",
-                    "name.length()<=3",
-                    ExceptionType.WrongSearchString);
-        }
-        SearchResultResponse resultProducts = searchService.searchProduct(request);
-        if (resultProducts.getProducts().isEmpty()) {
-            throw new NoSuchObjects();
-        }
+    @PostMapping(value = "onProducts", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity searchOnProduct(@RequestBody SearchResultRequest apiRequest) {
+        ApiException apiException = new ApiException("The search string is less than or equal to 3  -_-",
+                "name.length() <= 3", ExceptionType.WrongSearchString);
+        objectAssert(apiException, request -> request.getSearchString().length() <= 3, apiRequest);
+        SearchResultResponse resultProducts = searchService.searchProduct(apiRequest);
+        nullAssert(resultProducts);
         return new ResponseEntity<>(resultProducts, HttpStatus.OK);
     }
 

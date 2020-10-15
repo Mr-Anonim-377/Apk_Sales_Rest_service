@@ -4,6 +4,7 @@ import com.Sales.SalesWeb.controller.enums.SearchType;
 import com.Sales.SalesWeb.controller.exception.ApiException;
 import com.Sales.SalesWeb.controller.exception.enums.ExceptionType;
 import com.Sales.SalesWeb.controller.requestDto.ProductResuest.ProductRequest;
+import com.Sales.SalesWeb.repository.CategoryRepository;
 import com.google.common.collect.ImmutableMap;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +17,7 @@ import java.util.*;
 public class SearchResultRequest extends ProductRequest {
 
     private String searchString;
-
+//TODO Будующий функционал поиска по разным атрибутам
     private SearchType searchType;
 
     private int page;
@@ -31,9 +32,13 @@ public class SearchResultRequest extends ProductRequest {
 
     private BigDecimal maxPrice;
 
-
     public Map<Object, String> toAndsPredicateMap() {
         return new HashMap<>();
+    }
+
+    @Override
+    public List<Map<Object, String>> toOrsPredicateMap(CategoryRepository categoryRepository) {
+        return null;
     }
 
     public List<Map<Object, String>> toOrsPredicateMap() {

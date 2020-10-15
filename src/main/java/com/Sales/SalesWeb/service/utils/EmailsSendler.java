@@ -21,7 +21,7 @@ public class EmailsSendler {
         Session session = getSession(properties);
 
         Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("tech.shop.365@yandex.ru"));
+        message.setFrom(new InternetAddress("AgroShop-365@yandex.ru"));
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));
         message.setSubject(subject);
         MimeMultipart multipart = new MimeMultipart();
@@ -42,8 +42,8 @@ public class EmailsSendler {
                 new Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("tech.shop.365@yandex.ru",
-                                "CSkl19nigypqjexm!");
+                        return new PasswordAuthentication("AgroShop-365@yandex.ru",
+                                "CSkl19nigypqjexm");
                     }
                 });
     }

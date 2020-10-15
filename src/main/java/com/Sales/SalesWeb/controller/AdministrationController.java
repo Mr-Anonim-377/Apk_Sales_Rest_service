@@ -13,21 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping(value = "/admin", produces = MediaType.APPLICATION_JSON_VALUE)
-public class AdministrationController {
+@RequestMapping(value = "admin/", produces = MediaType.APPLICATION_JSON_VALUE)
+public class AdministrationController extends AbstractController {
     private final AdministrationService administrationService;
 
     public AdministrationController(AdministrationService administrationService) {
         this.administrationService = administrationService;
     }
 
-    @PostMapping(value = "/addProducts", produces = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity getProductsOnCategpry(@RequestParam("file") MultipartFile file) {
-        if (file.isEmpty()) {
-            throw new UploadFileEmptyError();
-        }
+    @PostMapping(value = "addProducts/", produces = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity getProductsOnCategory(@RequestParam("uploadsFile") MultipartFile file) {
+        nullAssert(new UploadFileEmptyError(), file);
         administrationService.saveAllProductFromFile(file);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }

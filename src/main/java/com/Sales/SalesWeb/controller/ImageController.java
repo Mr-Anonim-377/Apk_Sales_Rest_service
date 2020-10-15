@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "image", produces = MediaType.APPLICATION_JSON_VALUE)
-public class ImageController {
+@RequestMapping(value = "image/", produces = MediaType.APPLICATION_JSON_VALUE)
+public class ImageController extends AbstractController {
     private final ImageService imageService;
 
     public ImageController(ImageService imageService) {
@@ -25,9 +25,7 @@ public class ImageController {
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getImage(@PathVariable UUID id) {
         Image image = imageService.getImage(id);
-        if (image == null) {
-            throw new NoSuchObject();
-        }
+        nullAssert(image);
         return new ResponseEntity<>(image, HttpStatus.OK);
     }
 

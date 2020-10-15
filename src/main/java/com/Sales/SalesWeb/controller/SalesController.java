@@ -9,12 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("sales")
-public class SalesController {
-
-
+@RequestMapping("sales/")
+public class SalesController extends AbstractController {
     private final SalesRepository salesRepository;
-
 
     public SalesController(SalesRepository salesRepository) {
         this.salesRepository = salesRepository;
@@ -25,18 +22,15 @@ public class SalesController {
         return salesRepository.findAll();
     }
 
-
     @GetMapping("{id}")
     public Sale getSale(@PathVariable("id") Sale sale) {
         return sale;
     }
 
-
     @PostMapping("create")
     public Sale createSale(@RequestBody Sale sale) {
         return salesRepository.save(sale);
     }
-
 
     @PutMapping("{id}")
     public Sale updateSale(@PathVariable("id") Sale saleFromDb,

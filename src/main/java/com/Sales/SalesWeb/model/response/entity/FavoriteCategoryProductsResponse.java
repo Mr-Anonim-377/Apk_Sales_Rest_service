@@ -1,4 +1,4 @@
-package com.Sales.SalesWeb.model.POJO;
+package com.Sales.SalesWeb.model.response.entity;
 
 import com.Sales.SalesWeb.model.DTO.FavoriteCategoryDto;
 import com.Sales.SalesWeb.model.DTO.ProductDto;

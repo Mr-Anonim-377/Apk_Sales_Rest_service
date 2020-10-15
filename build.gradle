@@ -8,6 +8,22 @@ plugins {
 group = 'com.Sales'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_1_8
+/**
+ * 1st approach: Setting encoding during compilation in Java and Test classes
+ */
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+/**
+ * 2nd approach: Setting encoding during compilation in Java and Test classes
+ *
+ tasks.withType(JavaCompile) {
+ options.encoding = "UTF-8"
+ }
+ tasks.withType(Test) {
+ systemProperty "file.encoding", "UTF-8"
+ }
+ */
 
 
 configurations {
@@ -43,7 +59,7 @@ bootJar {
 //    }
 }
 //flyway {
-//    url = 'jdbc:postgresql://ec2-13-58-76-77.us-east-2.compute.amazonaws.com:5432/sales'
+//        url = 'jdbc:postgresql://ec2-3-133-7-234.us-east-2.compute.amazonaws.com:5432/sales'
 //    user = 'postgres'
 //    password = 'admin123456'
 //}

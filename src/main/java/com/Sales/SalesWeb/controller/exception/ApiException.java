@@ -20,5 +20,4 @@ public class ApiException extends RuntimeException {
         this.reason = reason;
         this.type = type;
     }
-
 }

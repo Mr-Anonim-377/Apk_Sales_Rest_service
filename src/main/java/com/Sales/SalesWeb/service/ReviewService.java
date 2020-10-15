@@ -1,9 +1,8 @@
 package com.Sales.SalesWeb.service;
 
 import com.Sales.SalesWeb.controller.exception.ApiException;
-import com.Sales.SalesWeb.controller.exception.InternalDataBaseServerExeption;
 import com.Sales.SalesWeb.controller.exception.enums.ExceptionType;
-import com.Sales.SalesWeb.controller.requestDto.ReviewRequest.ReviewRequest;
+import com.Sales.SalesWeb.controller.requestDto.ReviewRequest.ProductReviewRequest;
 import com.Sales.SalesWeb.model.Product;
 import com.Sales.SalesWeb.model.ProductReview;
 import com.Sales.SalesWeb.model.Review;
@@ -19,7 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class ReviewService {
+public class ReviewService extends AbstractService {
 
     private final ReviewRepository reviewRepository;
     private final ProductReviewRepository productReviewRepository;
@@ -36,28 +35,26 @@ public class ReviewService {
         this.userRepository = userRepository;
     }
 
-    public void createProductReview(ReviewRequest reviewRequest) {
-        try {
+    public void createProductReview(ProductReviewRequest productReviewRequest) {
+        CheckedErrorFunction<String, Review> reviewSqlFunction = email -> {
             Review review = new Review();
-            Integer requestMark = reviewRequest.getMark();
-            review.setReviewMark(requestMark);
-            review.setReviewDescription(reviewRequest.getDiscription());
-            review.setReviewTitle(reviewRequest.getTitle());
-            review.setReviewType(reviewRequest.getReviewType());
-            Optional<User> optionalUser = userRepository.findByEmail(reviewRequest.getUserEmail());
+            review.setReviewMark(productReviewRequest.getMark());
+            review.setReviewDescription(productReviewRequest.getDiscription());
+            review.setReviewTitle(productReviewRequest.getTitle());
+            review.setReviewType(productReviewRequest.getReviewType());
+            Optional<User> optionalUser = userRepository.findByEmail(email);
             if (optionalUser.isPresent()) {
                 review.setUser(optionalUser.get());
             } else {
-                throw new ApiException("Find User error",
-                        "Not find user in db",
-                        ExceptionType.NoSuchObj);
+                throw new ApiException("Find User error", "Not find user in db", ExceptionType.NoSuchObj);
             }
             review.setReviewId(UUID.randomUUID());
-            Review reviewIdDb = reviewRepository.save(review);
-
+            return reviewRepository.save(review);
+        };
+        Review reviewIdDb = applyHibernateQuery(productReviewRequest.getUserEmail(), reviewSqlFunction);
+        CheckedErrorFunction<UUID, Optional<Product>> productReviewSqlFunction = id -> {
             ProductReview productReview = new ProductReview();
-
-            Optional<Product> productOptional = productRepository.findById(reviewRequest.getProductId());
+            Optional<Product> productOptional = productRepository.findById(id);
             if (productOptional.isPresent()) {
                 productReview.setProductReviewsId(UUID.randomUUID());
                 productReview.setProduct(productOptional.get());
@@ -68,8 +65,10 @@ public class ReviewService {
             }
             productReview.setReview(reviewIdDb);
             productReviewRepository.save(productReview);
-
-            Product product = productOptional.get();
+            return productOptional;
+        };
+        Product product = applyHibernateQuery(productReviewRequest.getProductId(), productReviewSqlFunction).get();
+        CheckedErrorConsumer<Integer> productSqlFunction = requestMark -> {
             product.setSumMark(product.getSumMark() == null
                     ? requestMark
                     : product.getSumMark() + requestMark);
@@ -78,9 +77,7 @@ public class ReviewService {
                     : new BigDecimal(
                     Double.valueOf(product.getSumMark()) / product.getProductReviews().size()));
             productRepository.save(product);
-        } catch (RuntimeException e) {
-            throw new InternalDataBaseServerExeption();
-        }
+        };
+        applyHibernateQuery(productReviewRequest.getMark(), productSqlFunction);
     }
-
 }

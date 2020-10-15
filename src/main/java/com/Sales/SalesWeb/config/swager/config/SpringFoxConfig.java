@@ -1,4 +1,4 @@
-package com.Sales.SalesWeb.config;
+package com.Sales.SalesWeb.config.swager.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

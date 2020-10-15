@@ -1,4 +1,4 @@
-package com.Sales.SalesWeb.model.POJO;
+package com.Sales.SalesWeb.model.response.entity;
 
 import lombok.Getter;
 import lombok.Setter;

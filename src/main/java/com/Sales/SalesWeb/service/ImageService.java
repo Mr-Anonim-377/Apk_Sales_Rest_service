@@ -1,6 +1,5 @@
 package com.Sales.SalesWeb.service;
 
-import com.Sales.SalesWeb.controller.exception.InternalDataBaseServerExeption;
 import com.Sales.SalesWeb.model.Image;
 import com.Sales.SalesWeb.repository.ImageRepository;
 import org.springframework.stereotype.Service;
@@ -8,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class ImageService {
+public class ImageService extends AbstractService {
     private final ImageRepository imageRepository;
 
     public ImageService(ImageRepository imageRepository) {
@@ -16,12 +15,7 @@ public class ImageService {
     }
 
     public Image getImage(UUID id) {
-        Image image;
-        try {
-            image = imageRepository.findByImageId(id);
-        } catch (RuntimeException e) {
-            throw new InternalDataBaseServerExeption();
-        }
-        return image;
+        CheckedErrorFunction<UUID, Image> functionSql = imageRepository::findByImageId;
+        return applyHibernateQuery(id, functionSql);
     }
 }

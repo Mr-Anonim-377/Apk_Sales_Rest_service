@@ -3,8 +3,13 @@ package com.Sales.SalesWeb.controller.requestDto.ProductResuest;
 import com.Sales.SalesWeb.controller.exception.ApiException;
 import com.Sales.SalesWeb.controller.exception.NoMatchersException;
 import com.Sales.SalesWeb.controller.exception.enums.ExceptionType;
+import com.Sales.SalesWeb.repository.CategoryRepository;
+import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -14,19 +19,25 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+@Getter
+@Setter
 public abstract class ProductRequest {
+
+    private BigDecimal minPrice;
+    private BigDecimal maxPrice;
+    String sort;  // Order By *,*,* Asc/Desc
+
     protected static final Pattern sortPattern =
             Pattern.compile("^(ORDER|Order|order)\\s?(BY|By|by) (.*) (Asc|Desc|ASC|DESC|asc|desc)$");
 
     public Map<String, List<BigDecimal>> toMapBetween() {
-        BigDecimal minPrice = getMinPrice();
-        BigDecimal maxPrice = getMaxPrice();
-        minPrice = minPrice == null ? new BigDecimal(0.00) : minPrice;
-        if (minPrice.compareTo(new BigDecimal(0.00)) != -1) {
-            if (maxPrice == null) {
+        this.minPrice = this.minPrice == null ? new BigDecimal(0.00) : this.minPrice;
+        if (this.minPrice.compareTo(new BigDecimal(0.00)) != -1) {
+            if (this.maxPrice == null) {
                 return new HashMap<String, List<BigDecimal>>();
             }
-            if (maxPrice.compareTo(new BigDecimal(0.00)) != -1) {
+            if (this.maxPrice.compareTo(new BigDecimal(0.00)) != -1) {
                 BigDecimal finalMinPrice = minPrice;
                 return new HashMap<String, List<BigDecimal>>() {{
                     put("price", getListBetweenArg(finalMinPrice, maxPrice));
@@ -58,13 +69,9 @@ public abstract class ProductRequest {
 
     public abstract Map<Object, String> toAndsPredicateMap();
 
-    protected abstract String getSort();
-
-    protected abstract BigDecimal getMinPrice();
-
-    protected abstract BigDecimal getMaxPrice();
-
     private <T> List<T> getListBetweenArg(T... arg) {
         return Arrays.stream(arg).collect(Collectors.toList());
     }
+
+    public abstract List<Map<Object, String>> toOrsPredicateMap(CategoryRepository categoryRepository);
 }

@@ -12,6 +12,7 @@ import java.util.UUID;
 @Table(name = "images")
 @Getter
 @Setter
+
 public class Image {
 
     @Id

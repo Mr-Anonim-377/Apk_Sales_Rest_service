@@ -225,6 +225,10 @@ public class UserService {
             }
                 setUserToUserResponse(user, userInDb);
         }
+        else{
+            throw new ApiException("Cod validate Error", "invalid secure cod",
+                    ExceptionType.ErrorSecureCod);
+        }
     }
 
     public void changePassword(UserResponse user, PasswordChangeRequest passwordChangeRequest) {

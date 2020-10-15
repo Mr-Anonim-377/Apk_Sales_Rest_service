@@ -1,4 +1,4 @@
-package com.Sales.SalesWeb.model.POJO;
+package com.Sales.SalesWeb.model.response.entity;
 
 import com.Sales.SalesWeb.model.DTO.ProductDto;
 import com.Sales.SalesWeb.model.Product;
@@ -20,17 +20,17 @@ public class ShoppingProduct {
         this.product = product;
         this.productName = product.getNameProduct();
         this.numberPieces = numberPieces;
-        this.priceNumberPieces = BigDecimal.valueOf(product.getPrice().doubleValue() * numberPieces);
+        this.priceNumberPieces = BigDecimal.valueOf(product.getPrice().doubleValue() * numberPieces).setScale(2);
     }
 
     public void setNumberPieces(Integer numberPieces) {
         this.numberPieces = numberPieces;
-        this.priceNumberPieces = BigDecimal.valueOf(product.getPrice().doubleValue() * this.numberPieces);
+        this.priceNumberPieces = BigDecimal.valueOf(product.getPrice().doubleValue() * this.numberPieces).setScale(2);
     }
 
     public void setProduct(ProductDto product) {
         this.product = product;
         this.productName = product.getNameProduct();
-        this.priceNumberPieces = BigDecimal.valueOf(this.product.getPrice().doubleValue() * this.numberPieces);
+        this.priceNumberPieces = BigDecimal.valueOf(this.product.getPrice().doubleValue() * this.numberPieces).setScale(2);
     }
 }

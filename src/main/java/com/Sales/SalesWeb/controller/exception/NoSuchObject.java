@@ -1,5 +1,5 @@
 package com.Sales.SalesWeb.controller.exception;
 
-public class NoSuchObject extends RuntimeException {
+public class NoSuchObject extends ApiException  {
 
 }

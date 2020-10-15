@@ -4,6 +4,7 @@ import com.Sales.SalesWeb.model.DTO.ProductDto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -14,11 +15,16 @@ public class SearchResultResponse {
 
     Integer pageCount;
 
-    public SearchResultResponse() {
+    BigDecimal minPrice;
+
+    BigDecimal maxPrice;
+
+    public SearchResultResponse(List<ProductDto> products, Integer pageCount, BigDecimal minPrice,
+                                BigDecimal maxPrice) {
+        this.products = products;
+        this.pageCount = pageCount;
+        this.minPrice = minPrice;
+        this.maxPrice = maxPrice;
     }
 
-    public SearchResultResponse(List<ProductDto> products, Integer pageCaunt) {
-        this.products = products;
-        this.pageCount = pageCaunt;
-    }
 }

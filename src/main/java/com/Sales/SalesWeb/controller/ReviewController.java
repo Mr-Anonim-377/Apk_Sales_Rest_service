@@ -1,8 +1,6 @@
 package com.Sales.SalesWeb.controller;
 
-import com.Sales.SalesWeb.controller.requestDto.OrderRequest.OrderRequest;
-import com.Sales.SalesWeb.controller.requestDto.OrderRequest.OrderResponse;
-import com.Sales.SalesWeb.controller.requestDto.ReviewRequest.ReviewRequest;
+import com.Sales.SalesWeb.controller.requestDto.ReviewRequest.ProductReviewRequest;
 import com.Sales.SalesWeb.service.ReviewService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/review", produces = MediaType.APPLICATION_JSON_VALUE)
-public class ReviewController {
+@RequestMapping(value = "review/", produces = MediaType.APPLICATION_JSON_VALUE)
+public class ReviewController extends AbstractController {
 
     private final ReviewService reviewService;
 
@@ -22,12 +20,10 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @PostMapping(value = "/product",produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity createProductReview(@RequestBody ReviewRequest reviewRequest){
-            reviewService.createProductReview(reviewRequest);
+    @PostMapping(value = "product",produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity createProductReview(@RequestBody ProductReviewRequest productReviewRequest){
+            reviewService.createProductReview(productReviewRequest);
             return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
-
-

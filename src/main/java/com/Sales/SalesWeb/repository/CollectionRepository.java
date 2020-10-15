@@ -1,18 +1,16 @@
 package com.Sales.SalesWeb.repository;
 
 import com.Sales.SalesWeb.model.Collection;
+import com.Sales.SalesWeb.model.response.entity.SimpleDbEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 @Repository
-public interface CollectionRepository extends JpaRepository<Collection, UUID> {
+public interface CollectionRepository extends JpaRepository<Collection, Integer> {
 
     Collection findByCollectionId(Integer categoryId);
 
@@ -22,5 +20,5 @@ public interface CollectionRepository extends JpaRepository<Collection, UUID> {
             "from products as p " +
             "join collections as c on p.collection_id = c.collection_id " +
             "where p.category_id = :id", nativeQuery = true)
-    List<Map<Integer,String>> getAllProductCollections(@Param("id") int id);
+    List<SimpleDbEntity<Integer, String>> getCollectionsByCategoryIdOfProduct(@Param("id") int id);
 }
